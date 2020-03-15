@@ -58,6 +58,7 @@
 	</tpl:Block> <!-- # html-head -->
 </head>
 <tpl:Block name="body-tag">
+
 	<body id="page-top" class="dc-home <tpl:SysIf current_mode=" default">dc-home-first</tpl:SysIf>">
 </tpl:Block>
 <tpl:Block name="page-top">
@@ -68,11 +69,13 @@
 		<tpl:Block name="body-page">
 			<tpl:Block name="page-wrapper">
 				<tpl:Block name="wrapper-main">
-					<tpl:Block name="main-breadcrumb">
-						{{tpl:Breadcrumb}}
-					</tpl:Block>
-					<section id="content" class="resume-section p-3 p-lg-5 align-items-center" >
+
+					<section id="content" class="resume-section p-3 p-lg-5 align-items-center">
+						<tpl:Block name="main-breadcrumb">
+							{{tpl:Breadcrumb}}
+						</tpl:Block>
 						<tpl:Block name="main-content">
+
 							<tpl:Entries>
 
 								<!-- # First page -->

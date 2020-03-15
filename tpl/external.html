@@ -24,11 +24,13 @@
         <tpl:Block name="body-page">
             <tpl:Block name="page-wrapper">
                 <tpl:Block name="wrapper-main">
-                    <tpl:Block name="main-breadcrumb">
-                        {{tpl:Breadcrumb}}
-                    </tpl:Block>
+
                     <section id="content" class="resume-section p-3 p-lg-5 align-items-center">
+                        <tpl:Block name="main-breadcrumb">
+                            {{tpl:Breadcrumb}}
+                        </tpl:Block>
                         <tpl:Block name="main-content">
+
                             {{tpl:include src="_entry-full.html"}}
                         </tpl:Block> <!-- # main-content -->
                     </section> <!-- # End #content -->
