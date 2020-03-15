@@ -1,0 +1,49 @@
+{{tpl:extends parent="__layout.html"}}
+
+<tpl:Block name="head-title">
+    <title>{{tpl:EntryTitle encode_html="1"}} - {{tpl:BlogName encode_html="1"}}</title>
+</tpl:Block>
+
+<tpl:Block name="meta-entry">
+    <meta name="author" content="{{tpl:BlogEditor encode_html="1"}}" />
+    <meta name="date" content="{{tpl:BlogUpdateDate iso8601="1"}}" />
+</tpl:Block>
+
+<tpl:Block name="head-linkrel">
+    <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:BlogFeedURL type="atom"}}" />
+</tpl:Block>
+
+<tpl:Block name="body-tag">
+
+    <body id="page-top" class="dc-page">
+</tpl:Block>
+
+<tpl:Block name="html-body">
+    <div class="container-fluid p-0">
+        <tpl:Block name="body-page">
+            <tpl:Block name="page-wrapper">
+                <tpl:Block name="wrapper-main">
+                    <tpl:Block name="main-breadcrumb">
+                        {{tpl:Breadcrumb}}
+                    </tpl:Block>
+                    <section id="content" class="resume-section p-3 p-lg-5 align-items-center">
+                        <tpl:Block name="main-content">
+                            {{tpl:include src="_entry-full.html"}}
+                        </tpl:Block> <!-- # main-content -->
+                    </section> <!-- # End #content -->
+                </tpl:Block> <!-- # wrapper-main -->
+                <hr class="m-0">
+
+                <tpl:Block name="wrapper-sidebar">
+                    {{tpl:include src="_sidebar.html"}}
+                </tpl:Block> <!-- # wrapper-sidebar -->
+            </tpl:Block> <!-- # page-wrapper -->
+            <hr class="m-0">
+
+            <tpl:Block name="page-footer">
+                {{tpl:include src="_footer.html"}}
+            </tpl:Block> <!-- # page-footer -->
+        </tpl:Block> <!-- # body-page -->
+    </div> <!-- # End #page -->
+</tpl:Block> <!-- # html-body -->
