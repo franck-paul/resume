@@ -44,7 +44,7 @@
   width: 100%;
   height: auto;
   border: 1px solid $gray-200;
-  background: #eee
+  background: $gray-100
 }
 
 .dc-post .post-infos {
@@ -261,7 +261,7 @@ ul.post-tags-list li {
 .ping {
   clear: left;
   margin-left: 0;
-  border-top: 1px solid #bbb;
+  border-top: 1px solid $gray-200;
 }
 
 .comment-info {
