@@ -1,3 +1,7 @@
+ul {
+  list-style-type: circle
+}
+
 .post {
   position: relative;
   padding: 0;
@@ -94,10 +98,6 @@ img.smiley {
 .post-content ul,
 .post-content ol {
   font-size: 1.2em;
-}
-
-.post-content ul {
-  list-style-type: circle
 }
 
 .post-content ul,
