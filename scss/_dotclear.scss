@@ -51,9 +51,11 @@
   margin-bottom: 2em
 }
 
-.post-infos span {
+p.post-info span {
+  margin-right: 1em;
   white-space: nowrap
 }
+
 
 .post-content img,
 .post-excerpt img {
@@ -125,8 +127,7 @@ img.smiley {
 }
 
 .post-info-co {
-
-  font-size: 1.2em;
+  font-size: 0.8em;
   font-style: italic;
   padding-right: .5em;
   max-width: 80%;
@@ -135,7 +136,7 @@ img.smiley {
 .post-info-co a {
   text-decoration: none;
   padding-right: 1em;
-  padding-left: 20px;
+  padding-left: 0;
 }
 
 ul.post-tags-list {
