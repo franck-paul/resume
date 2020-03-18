@@ -65,12 +65,12 @@
 					<h3>{{tpl:lang By category}}</h3>
 					<ul class="arch-list arch-cat-list">
 			</tpl:CategoriesHeader>
-			<li><a href="{{tpl:CategoryURL}}"><i class="far fa-folder"></i> {{tpl:CategoryTitle encode_html="1"}}</a>
+			<li><a href="{{tpl:CategoryURL}}">{{tpl:CategoryTitle encode_html="1"}}</a>
 				<tpl:CategoryFirstChildren>
 					<tpl:CategoriesHeader>
 						<ul class="arch-list arch-sub-cat-list">
 					</tpl:CategoriesHeader>
-			<li><a href="{{tpl:CategoryURL}}"><i class="far fa-folder"></i> {{tpl:CategoryTitle encode_html="1"}}</a></li>
+			<li><a href="{{tpl:CategoryURL}}">{{tpl:CategoryTitle encode_html="1"}}</a></li>
 			<tpl:CategoriesFooter>
 				</ul>
 			</tpl:CategoriesFooter>
@@ -88,7 +88,7 @@
 					<h3>{{tpl:lang By tag}}</h3>
 					<ul class="arch-list arch-tag-list">
 			</tpl:TagsHeader>
-			<li><a href="{{tpl:TagURL}}" class="tag{{tpl:TagRoundPercent}}"><i class="fas fa-tag"></i> {{tpl:TagID}}</a></li>
+			<li><a href="{{tpl:TagURL}}" class="tag{{tpl:TagRoundPercent}}">{{tpl:TagID}}</a></li>
 			<tpl:TagsFooter>
 				</ul>
 				</div>

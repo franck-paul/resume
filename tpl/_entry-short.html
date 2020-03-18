@@ -15,7 +15,7 @@
 	<!-- # Entry with an excerpt -->
 	<tpl:EntryIf extended="1">
 		<div class="post-content">
-			{{tpl:EntryFirstImage size="t" class="post-icon"}}
+			
 			{{tpl:EntryExcerpt}}
 		</div>
 		<p class="post-read-it"><a href="{{tpl:EntryURL}}"
@@ -25,7 +25,7 @@
 	<!-- # Entry without excerpt -->
 	<tpl:EntryIf extended="0">
 		<div class="post-content">
-			{{tpl:EntryFirstImage size="t" class="post-icon"}}
+			
 			<p>
 				{{tpl:EntryContent encode_html="1" remove_html="1" cut_string="300"}}
 				<tpl:EntryIfContentCut encode_html="1" remove_html="1" cut_string="300">
