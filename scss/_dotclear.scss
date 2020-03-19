@@ -366,7 +366,11 @@ ul.post-tags-list li {
   color: $white;
   vertical-align: top;
   font-variant: small-caps;
-  height: 2em
+  height: 2em;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  font-weight: bold
 }
 
 #search .submit:focus {
@@ -374,7 +378,7 @@ ul.post-tags-list li {
 }
 
 #search .submit:hover {
-  background: $gray-500
+  background: $gray-700
 }
 
 ul.post-tags-list {
@@ -405,11 +409,12 @@ button.submit {
   -moz-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
   color: $white;
-  background-color: $primary
+  background-color: $primary;
+  font-weight: bold
 }
 
 button.preview:hover,
 button.submit:hover {
   color: $white;
-  background-color: $gray-500
+  background-color: $gray-700
 }
