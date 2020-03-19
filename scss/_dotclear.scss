@@ -344,45 +344,37 @@ ul.post-tags-list li {
 
 #search p {
   background: $white;
-  text-align: right;
   border: 1px solid $gray-200;
   vertical-align: middle;
   padding: 0;
-  width: 78%;
+  display: inline-block
 }
 
 #search input {
   margin: 0;
   border: none;
   background: transparent;
-  height: auto;
-  line-height: 2em;
 }
 
-#q {
-  float: left;
-  width: 78%;
-  font-size: 100%;
-  padding-left: 2px;
-  color: $black
-}
-
-#q:focus {
-  background: $gray-500;
+#q:focus,
+#q:hover {
+  background: $white
 }
 
 #search .submit {
   background-color: $primary;
   color: $white;
   vertical-align: top;
-  width: 20%;
   font-variant: small-caps;
-  height: 2em;
+  height: 2em
 }
 
-#search .submit:hover,
 #search .submit:focus {
-  background: $gray-700;
+  background: $primary
+}
+
+#search .submit:hover {
+  background: $gray-500
 }
 
 ul.post-tags-list {
@@ -406,8 +398,7 @@ ul.post-tags-list li a {
 
 button.preview,
 button.submit {
-  border-radius: 5px;
-  box-shadow: none;
+  border: none;
   padding: 5px 10px;
   text-transform: uppercase;
   -webkit-transition: all .3s ease-in-out;
@@ -420,5 +411,5 @@ button.submit {
 button.preview:hover,
 button.submit:hover {
   color: $white;
-  background-color: $gray-700
+  background-color: $gray-500
 }
