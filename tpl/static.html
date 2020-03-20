@@ -5,10 +5,11 @@
 </tpl:Block>
 
 <tpl:Block name="meta-entry">
-  <meta name="description" lang="{{tpl:BlogLanguage}}" content="{{tpl:BlogDescription cut_string="180" remove_html="1" encode_html="1"}}" />
+  <meta name="description" lang="{{tpl:BlogLanguage}}"
+    content="{{tpl:BlogDescription cut_string="180" remove_html="1" encode_html="1"}}" />
   <meta name="author" content="{{tpl:BlogEditor encode_html="1"}}" />
   <meta name="date" content="{{tpl:BlogUpdateDate iso8601="1"}}" />
-</tpl:Block>  <!-- # meta-entry -->
+</tpl:Block> <!-- # meta-entry -->
 
 <tpl:Block name="head-linkrel">
   <link rel="contents" title="{{tpl:lang Entries}}" href="{{tpl:BlogPostsURL}}" />
@@ -20,17 +21,26 @@
   <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:BlogFeedURL type="atom"}}" />
   <link rel="EditURI" type="application/rsd+xml" title="RSD" href="{{tpl:BlogRSDURL}}" />
   <link rel="meta" type="application/xbel+xml" title="Blogroll" href="{{tpl:BlogrollXbelLink}}" />
-</tpl:Block>  <!-- # head-linkrel -->
+</tpl:Block> <!-- # head-linkrel -->
 
-<tpl:Block name="body-tag"><body id="page-top" class="dc-home dc-home-static"></tpl:Block>
+<tpl:Block name="body-tag">
+
+  <body id="page-top" class="dc-home dc-home-static">
+</tpl:Block>
 
 <tpl:Block name="main-content">
   <tpl:IfBlogStaticEntryURL>
     {{tpl:BlogStaticEntryURL}}
     <tpl:Entries>
-      <div class="content-inner">{{tpl:EntryExcerpt}}{{tpl:EntryContent}}</div>
+      <article id="p{{tpl:EntryID}}" class="post {{tpl:EntryIfOdd}} {{tpl:EntryIfFirst}} full" lang="{{tpl:EntryLang}}">
+        <h2 class="post-title"><a href="{{tpl:EntryURL}}">{{tpl:EntryTitle encode_html="1"}}</a></h2>
+        <div class="content-inner">
+          <div class="post-excerpt">{{tpl:EntryExcerpt}}</div>
+          <div class="post-content">{{tpl:EntryContent}}</div>
+        </div>
+      </article>
     </tpl:Entries>
-  {{tpl:else}}
+    {{tpl:else}}
     <header id="content-info">
       <h2>{{tpl:lang Welcome}}</h2>
     </header>
