@@ -418,3 +418,7 @@ button.submit:hover {
   color: $white;
   background-color: $gray-700
 }
+
+.dc-search em {font-weight: bold}
+.dc-search em:before {content: '"'}
+.dc-search em:after {content: '"'}
