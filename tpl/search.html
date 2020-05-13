@@ -1,7 +1,9 @@
 {{tpl:extends parent="__layout.html"}}
 
 <tpl:Block name="head-title">
-	<title>{{tpl:lang Search}} - {{tpl:SysSearchString encode_html="1"}} - {{tpl:BlogName encode_html="1"}}<tpl:PaginationIf start="0"> - {{tpl:lang page}} {{tpl:PaginationCurrent}}</tpl:PaginationIf></title>
+	<title>{{tpl:lang Search}} - {{tpl:SysSearchString encode_html="1"}} - {{tpl:BlogName encode_html="1"}}
+		<tpl:PaginationIf start="0"> - {{tpl:lang page}} {{tpl:PaginationCurrent}}</tpl:PaginationIf>
+	</title>
 </tpl:Block>
 
 <tpl:Block name="meta-robots">
@@ -26,7 +28,10 @@
 	<link rel="meta" type="application/xbel+xml" title="Blogroll" href="{{tpl:BlogrollXbelLink}}" />
 </tpl:Block>
 
-<tpl:Block name="body-tag"><body id="page-top" class="dc-search"></tpl:Block>
+<tpl:Block name="body-tag">
+
+	<body id="page-top" class="dc-search">
+</tpl:Block>
 
 <tpl:Block name="main-content">
 	<header id="content-info">
@@ -35,29 +40,35 @@
 			<p>{{tpl:SysSearchString encode_html="1" string="Your search for <em>%1$s</em> returned no result."}}</p>
 		</tpl:SysIf>
 		<tpl:SysIf search_count="==1">
-			<p>{{tpl:SysSearchString encode_html="1" string="Your search for <em>%1$s</em> returned <strong>%2$s</strong> result."}}</p>
+			<p>{{tpl:SysSearchString encode_html="1" string="Your search for <em>%1$s</em> returned <strong>%2$s</strong> result."}}
+			</p>
 		</tpl:SysIf>
 		<tpl:SysIf search_count="&gt;1">
-			<p>{{tpl:SysSearchString encode_html="1" string="Your search for <em>%1$s</em> returned <strong>%2$s</strong> results."}}</p>
+			<p>{{tpl:SysSearchString encode_html="1" string="Your search for <em>%1$s</em> returned <strong>%2$s</strong> results."}}
+			</p>
 		</tpl:SysIf>
 	</header>
 
 	<div class="content-inner">
 		<tpl:Entries>
-
+			
 			{{tpl:include src="_entry-short.html"}}
 
 			<tpl:EntriesFooter>
 				<tpl:Pagination>
-					<p class="pagination">
+					<nav class="pagination" aria-label="{{tpl:lang Pagination}}" role="navigation">
 						<tpl:PaginationIf end="0">
-							<a href="{{tpl:PaginationURL offset="+1"}}" class="prev">&#171; {{tpl:lang previous entries}}</a> -
+							<a href="{{tpl:PaginationURL offset="+1"}}" class="prev"><span aria-hidden="true">&#171;
+								</span>{{tpl:lang previous entries}}</a> -
 						</tpl:PaginationIf>
-						 {{tpl:lang page}} {{tpl:PaginationCurrent}} {{tpl:lang of}} {{tpl:PaginationCounter}}
-						<tpl:PaginationIf start="0">
-							 - <a href="{{tpl:PaginationURL offset="-1"}}" class="next">{{tpl:lang next entries}} &#187;</a>
+
+						<span class="visually-hidden">{{tpl:lang Active page}}"></span>{{tpl:lang page}}
+						{{tpl:PaginationCurrent}} {{tpl:lang of}} {{tpl:PaginationCounter}}
+
+						<tpl:PaginationIf start="0"> - <a href="{{tpl:PaginationURL offset="-1"}}" class="next">
+								{{tpl:lang next entries}}<span aria-hidden="true"> &#187;</span></a>
 						</tpl:PaginationIf>
-					</p>
+					</nav>
 				</tpl:Pagination>
 			</tpl:EntriesFooter>
 		</tpl:Entries>
