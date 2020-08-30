@@ -106,6 +106,40 @@ p.post-info span {
   padding: 2px;
 }
 
+blockquote {
+  font-size: 0.9em;
+  line-height: 1.33;
+  quotes: '\201C''\201D';
+  margin-top: 1.7777778em;
+  font-style: italic;
+}
+
+blockquote:before,
+blockquote:after {
+  margin-top: 0;
+  font-size: 3em;
+  display: block;
+  line-height: .25;
+  color: #dcdcdc;
+  margin-bottom: 0;
+}
+
+blockquote:before {
+  content: open-quote;
+  float: left;
+  margin-right: .25em;
+}
+
+blockquote:after {
+  content: close-quote;
+  text-align: right;
+}
+
+blockquote p:first-child {
+  margin-top: 0;
+}
+
+
 @media(min-width:768px) {
 
   .post-content img,
@@ -310,7 +344,10 @@ ul.post-tags-list li {
 }
 
 #comments .me {
-  color: $gray-900
+  border: 1px solid $gray-200;
+  border-radius: 5px;
+  padding: 0.5em 0 0 0.5em;
+  margin: 1em
 }
 
 #comments {
