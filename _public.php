@@ -17,6 +17,8 @@ if (!defined('DC_RC_PATH')) {
 
 # Simple menu template functions
 $core->tpl->addValue('ResumeSimpleMenu', ['tplResumeSimpleMenu', 'resumeSimpleMenu']);
+$core->tpl->addValue('resumeUserColors', ['tplResumeTheme', 'resumeUserColors']);
+$core->tpl->addValue('resumeUserImageSrc', ['tplResumeTheme', 'resumeUserImageSrc']);
 
 class tplResumeSimpleMenu
 {
@@ -145,5 +147,51 @@ class tplResumeSimpleMenu
         }
 
         return $ret;
+    }
+}
+class tplResumeTheme
+{
+    public static function resumeUserColors($attr)
+    {
+        $s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+        $s = @unserialize($s);
+
+        if (!is_array($s)) {
+            $s = [];
+        }
+        if (!isset($s['main_color'])) {
+            $s['main_color'] = '#BD5D38';
+        }
+
+        $resume_user_main_color = $s['main_color'];
+        $resume_user_colors_css_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/css/resume.user.colors.php";
+
+        if ($resume_user_main_color !=='#BD5D38') {
+            $resume_user_main_color = substr($resume_user_main_color, 1);
+            return
+            "<?php\n" .
+            "echo \"<link rel='stylesheet' type='text/css' href='". $resume_user_colors_css_url ."?main_color=".$resume_user_main_color."' media='screen' />\"" .
+                " ?>\n";
+        } else {
+            return;
+        }
+    }
+
+    public static function resumeUserImageSrc($attr)
+    {
+        $resume_default_image_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/img/profile.jpg";
+
+        $s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+        $s = @unserialize($s);
+
+        if (!is_array($s)) {
+            $s = [];
+        }
+        if (!isset($s['resume_user_image']) || empty($s['resume_user_image'])) {
+            $s['resume_user_image'] = $resume_default_image_url;
+        }
+        return
+            "<?php\n" .
+            "echo \"".$s['resume_user_image']."\" ?>\n";
     }
 }
