@@ -1,58 +1,29 @@
 $(function () {
-    
-    function getFileThumb(file) {
-
-        const name = file;
-        const lastDot = name.lastIndexOf('.');
-
-        var ext = name.substring(lastDot + 1);
-        var fileName = (name.split('\\').pop().split('/').pop().split('.'))[0];
-
-        return name.substr(0, name.lastIndexOf('/')) + '/.' + fileName + '_s.' + ext.replace('jpeg', 'jpg');;
-    }
-
-    function FileExists(url) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', url, false);
-        xhr.send();
-
-        if (xhr.status == "404") {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    // default image
-    $('#default-image-selector').on('click', function (e) {
-        $('input[name="change-button-id"]').val(this.id);
+    // user image
+    $('#resume_user_image_selector').on('click', function (e) {
         window.open('media.php?plugin_id=admin.blog.theme&popup=1&select=1', 'dc_popup', 'alwaysRaised=yes,dependent=yes,toolbar=yes,height=500,width=760,' + 'menubar=no,resizable=yes,scrollbars=yes,status=no');
         e.preventDefault();
         return false;
     });
 
-    $('#default-image-selector-reset').on('click', function (e) {
-        var url = $('input[name="theme-url"]').val() + '/img/intro-bg.jpg';
-        var thumb = $('input[name="theme-url"]').val() + '/img/.intro-bg_s.jpg';
-        $('#default-image-url').val(url);
-        $('#default-image-thumb-url').attr('src', thumb);
+    $('#resume_user_image_reset').on('click', function (e) {
+        var url = $('input[name="theme-url"]').val() + '/img/profile.jpg';
+        $('#resume_user_image').val(url);
+        $('#resume_user_image_src').attr('src', url);
+        $('#resume_user_image_src').attr('alt', url);
     });
 
-    $('#default-image-url').on('change', function (e) {
-        var url = $('input[name="theme-url"]').val() + '/img/intro-bg.jpg';
-        var thumb = $('input[name="theme-url"]').val() + '/img/.intro-bg_s.jpg';
-        if ($('#default-image-url').val() == url) {
-            $('#default-image-thumb-url').attr('src', thumb);
-        } else if ($('#default-image-url').val() == '') {
+    $('#resume_user_image').on('change', function (e) {
+        const url = $('input[name="theme-url"]').val() + '/img/profile.jpg';
+        if ($('#resume_user_image').val() == url) {
+            $('#resume_user_image_src').attr('src', url);
+            $('#resume_user_image_src').attr('alt', url);
+        } else if ($('#resume_user_image').val() == '') {
             return;
         } else {
-            thumb = getFileThumb($('#default-image-url').val());
-            if (FileExists(thumb)) {
-                $('#default-image-thumb-url').attr('src', thumb);
-            } else {
-                thumb = $('input[name="theme-url"]').val() + '/img/no-thumb.jpg';
-                $('#default-image-thumb-url').attr('src', thumb);
-            }
+            let src = $('#resume_user_image').val();
+            $('#resume_user_image_src').attr('src', src);
+            $('#resume_user_image_src').attr('alt', src);
         }
     });
 });
