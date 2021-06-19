@@ -17,7 +17,13 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 l10n::set(dirname(__FILE__) . '/locales/' . $_lang . '/admin');
 
 $standalone_config = (boolean) $core->themes->moduleInfo($core->blog->settings->system->theme, 'standalone_config');
-$resume_default_image_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/img/profile.jpg";
+
+if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
+    $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+} else {
+    $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+}
+$resume_default_image_url = $theme_url."/img/profile.jpg";
 
 $s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
 $s = @unserialize($s);
@@ -73,13 +79,20 @@ echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme
 
 echo '<h4 class="pretty-title">' . __('Profile image') . '</h4>';
 
-echo '<p> ' .
-    '<img alt="' . __('Image URL:') . ' " src="'. $s['resume_user_image'] .'" class="img-profile" />' .
-    '</p>';
+echo '<div class="box theme">';
 
-echo '<p><label for="resume_user_image" class="classic">' . __('Image URL:') . '</label> ' .
-    form::field('resume_user_image', 30, 255, html::escapeHTML($s['resume_user_image'])) .
-    '</p>';
+echo '<p> ' .
+'<img id="resume_user_image_src" alt="' . __('Image URL:') . ' ' . $s['resume_user_image'] .
+ '" src="' . $s['resume_user_image'] . '" class="img-profile" />' .
+ '</p>';
+
+echo '<p class="resume-buttons"><button type="button" id="resume_user_image_selector">' . __('Change') . '</button>' .
+'<button class="delete" type="button" id="resume_user_image_reset">' . __('Reset') . '</button>' .
+'</p>' ;
+
+echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, $s['resume_user_image']) . '</p>';
+
+echo '</div>';
 
 echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
 
@@ -87,6 +100,7 @@ echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '
     form::color('main_color', 30, 255, $s['main_color']) . '</p>' ;
 
 echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
+echo form::hidden(['theme-url'], $theme_url);
 echo '</form>';
 
 

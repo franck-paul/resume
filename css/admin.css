@@ -1,0 +1,11 @@
+.img-profile {
+    border-radius: 50%;
+    margin-left: 1rem;
+    max-width: 15rem;
+    border: .5rem #c9c9c9 solid;
+}
+
+.resume-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
