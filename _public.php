@@ -153,7 +153,9 @@ class tplResumeTheme
 {
     public static function resumeUserColors($attr)
     {
-        $s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+        $core = $GLOBALS['core'];
+
+        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
         $s = @unserialize($s);
 
         if (!is_array($s)) {
@@ -164,7 +166,14 @@ class tplResumeTheme
         }
 
         $resume_user_main_color = $s['main_color'];
-        $resume_user_colors_css_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/css/resume.user.colors.php";
+        
+        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        } else {
+            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+        }
+        
+        $resume_user_colors_css_url = $theme_url ."/css/resume.user.colors.php";
 
         if ($resume_user_main_color !=='#bd5d38') {
             $resume_user_main_color = substr($resume_user_main_color, 1);
@@ -179,9 +188,17 @@ class tplResumeTheme
 
     public static function resumeUserImageSrc($attr)
     {
-        $resume_default_image_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/img/profile.jpg";
+        $core = $GLOBALS['core'];
 
-        $s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        } else {
+            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+        }
+        
+        $resume_default_image_url = $theme_url ."/img/profile.jpg";
+
+        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
         $s = @unserialize($s);
 
         if (!is_array($s)) {
