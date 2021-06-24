@@ -160,13 +160,13 @@ class tplResumeTheme
             $s = [];
         }
         if (!isset($s['main_color'])) {
-            $s['main_color'] = '#BD5D38';
+            $s['main_color'] = '#bd5d38';
         }
 
         $resume_user_main_color = $s['main_color'];
         $resume_user_colors_css_url = $GLOBALS['core']->blog->settings->system->themes_url."/".$GLOBALS['core']->blog->settings->system->theme."/css/resume.user.colors.php";
 
-        if ($resume_user_main_color !=='#BD5D38') {
+        if ($resume_user_main_color !=='#bd5d38') {
             $resume_user_main_color = substr($resume_user_main_color, 1);
             return
             "<?php\n" .

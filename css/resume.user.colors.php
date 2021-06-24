@@ -4,7 +4,7 @@ header("Content-type: text/css; charset=UTF-8");
 if (!empty($_GET['main_color'])) {
     $main_color = '#'.$_GET['main_color'];
 } else {
-  $main_color = '#'.'BD5D38';
+  $main_color = '#'.'bd5d38';
 }
 
 ?>
@@ -14,7 +14,7 @@ a {
 
 a:hover, a:focus, a:active {
   color: <?php echo $main_color; ?>;
-  filter: brightness(65%);
+  
 }
 
 .social-icons a:hover {

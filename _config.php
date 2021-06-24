@@ -36,7 +36,7 @@ if (!isset($s['resume_user_image']) || empty($s['resume_user_image'])) {
 }
 
 if (!isset($s['main_color'])) {
-    $s['main_color'] = '#BD5D38';
+    $s['main_color'] = '#bd5d38';
 }
 
 // Load contextual help
