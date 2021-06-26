@@ -1,11 +1,16 @@
 .img-profile {
     border-radius: 50%;
-    margin-left: 1rem;
-    max-width: 15rem;
     border: .5rem #c9c9c9 solid;
+    object-fit: cover;
+    width: 160px;
+    height: 160px;
 }
 
 .resume-buttons {
     display: flex;
     justify-content: space-evenly;
+}
+
+.box img {
+    object-fit: cover
 }
