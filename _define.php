@@ -5,9 +5,7 @@
  * @package Dotclear
  * @subpackage Themes
  *
- * @author Start Bootstrap and Philippe aka amalgame
- *
- * @copyright Philippe Hénaff philippe@dissitou.org
+ * @author Philippe aka amalgame and contributors
  * @copyright GPL-2.0
  */
 
@@ -17,9 +15,9 @@ if (!defined('DC_RC_PATH')) {
 
 $this->registerModule(
     "Resume",                                           // Name
-    "A simple Bootstrap blog theme",                    // Description
-    "Start Bootstrap and Philippe aka amalgame",        // Author
-    '1.9',                                              // Version
+    "A simple Bootstrap 5 blog theme",                  // Description
+    "Philippe aka amalgame and contributors",           // Author
+    '2.0',                                              // Version
     [                                                   // Properties
         'requires'          => [['core', '2.19']], 		// Dependencies
         'standalone_config' => true,
