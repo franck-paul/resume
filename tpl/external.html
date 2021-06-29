@@ -21,6 +21,24 @@
 
 <tpl:Block name="html-body">
     <div class="container-fluid p-0">
+        <section class="resume-section" id="about">
+			<div class="resume-section-content">
+				<h1 class="mb-0"><a class="site-title__link" href="{{tpl:BlogURL}}"><span
+							class="site-title__text">{{tpl:BlogName encode_html="1"}}</span></a></h1>
+				<div class="subheading mb-5">
+
+				</div>
+				<p class="lead mb-5">{{tpl:BlogDescription}}</p>
+				<div class="social-icons">
+					<a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+					<a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
+					<a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
+					<a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+				</div>
+			</div>
+		</section>
+		<hr class="m-0">
+        
         <tpl:Block name="body-page">
             <tpl:Block name="page-wrapper">
                 <tpl:Block name="wrapper-main">
