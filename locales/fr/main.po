@@ -36,3 +36,24 @@ msgstr "Menu principal"
 
 msgid "Required field"
 msgstr "Champ obligatoire"
+
+msgid "Error page"
+msgstr "Page d'erreur"
+
+msgid "Entries list"
+msgstr "Liste des publications"
+
+msgid "Archives list"
+msgstr "Liste des archives"
+
+msgid "Entry"
+msgstr "Publication"
+
+msgid "Page"
+msgstr "Page"
+
+msgid "Post"
+msgstr "Billet"
+
+msgid "Tags list"
+msgstr "Liste des mots-clés"
