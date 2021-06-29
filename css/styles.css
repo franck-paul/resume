@@ -210,7 +210,7 @@ sup {
 
 a {
   color: #bd5d38;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover {
   color: #974a2d;
@@ -6997,7 +6997,7 @@ textarea.form-control-lg {
 }
 
 .mb-5 {
-  margin-bottom: 3rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .mb-auto {
