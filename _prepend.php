@@ -71,6 +71,11 @@ class tplResumeThemeAdmin
 
     public static function adminPageHTTPHeaderCSP($csp)
     {
+        global $core;
+        if ($core->blog->settings->system->theme != 'resume') {
+            return;
+        }
+        
         if (isset($csp['script-src'])) {
             $csp['script-src'] .= ' use.fontawesome.com';
         } else {
