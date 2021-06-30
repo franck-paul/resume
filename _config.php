@@ -100,15 +100,15 @@ if (!empty($_POST)) {
                 $order = array_keys($order);
             }
             if (!empty($order)) {
-                $new_magalogue_stickers = [];
+                $new_stickers = [];
                 foreach ($order as $i => $k) {
-                    $new_magalogue_stickers[] = [
+                    $new_stickers[] = [
                         'label' => $stickers[$k]['label'],
                         'url'   => $stickers[$k]['url'],
                         'image' => $stickers[$k]['image']
                     ];
                 }
-                $stickers = $new_magalogue_stickers;
+                $stickers = $new_stickers;
             }
         }
         $core->blog->settings->addNamespace('themes');
