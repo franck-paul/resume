@@ -44,14 +44,6 @@ a {
 
 #search .submit {
   background-color: <?php echo $main_color; ?>;
-  color: #fff;
-  vertical-align: top;
-  font-variant: small-caps;
-  height: 2em;
-  -webkit-transition: all .3s ease-in-out;
-  -moz-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
-  font-weight: bold;
 }
 
 #search .submit:focus {
@@ -60,13 +52,5 @@ a {
 
 button.preview,
 button.submit {
-  border: none;
-  padding: 5px 10px;
-  text-transform: uppercase;
-  -webkit-transition: all .3s ease-in-out;
-  -moz-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
-  color: #fff;
   background-color: <?php echo $main_color; ?>;
-  font-weight: bold;
 }
