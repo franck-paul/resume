@@ -17,8 +17,10 @@ if (!defined('DC_RC_PATH')) {
 
 # Simple menu template functions
 $core->tpl->addValue('ResumeSimpleMenu', ['tplResumeSimpleMenu', 'resumeSimpleMenu']);
+
 $core->tpl->addValue('resumeUserColors', ['tplResumeTheme', 'resumeUserColors']);
 $core->tpl->addValue('resumeUserImageSrc', ['tplResumeTheme', 'resumeUserImageSrc']);
+$core->tpl->addValue('resumeSocialLinks', ['tplResumeTheme', 'resumeSocialLinks']);
 
 class tplResumeSimpleMenu
 {
@@ -210,5 +212,51 @@ class tplResumeTheme
         return
             "<?php\n" .
             "echo \"".$s['resume_user_image']."\" ?>\n";
+    }
+
+    public static function resumeSocialLinks($attr)
+    {
+        global $core;
+        # Social media links
+        $res     = '';
+
+        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
+
+        if ($s === null) {
+            $default = true;
+        } else {
+            $s = @unserialize($s);
+            
+            $s = array_filter($s, 'self::cleanSocialLinks');
+                
+            $count = 0;
+            foreach ($s as $sticker) {
+                $res .= self::setSocialLink($count, ($count == count($s)), $sticker['label'], $sticker['url'], $sticker['image']);
+                $count++;
+            }
+        }
+
+        if ($res != '') {
+            return $res;
+        }
+    }
+    protected static function setSocialLink($position, $last, $label, $url, $image)
+    {
+        return
+            '<a class="social-icon" title="' . $label . '" href="' . $url . '">' . "\n" .
+            '<i class="' . $image . '"></i>' . "\n" .
+            '</a>' . "\n";
+    }
+
+    protected static function cleanSocialLinks($s)
+    {
+        if (is_array($s)) {
+            if (isset($s['label']) && isset($s['url']) && isset($s['image'])) {
+                if ($s['label'] != null && $s['url'] != null && $s['image'] != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
