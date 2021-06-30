@@ -69,12 +69,12 @@ if (file_exists(dirname(__FILE__) . '/locales/' . $_lang . '/resources.php')) {
     require dirname(__FILE__) . '/locales/' . $_lang . '/resources.php';
 }
 
-$conf_tab = $_POST['conf_tab'] ?? 'html';
+$conf_tab = $_POST['conf_tab'] ?? 'presentation';
 
 if (!empty($_POST)) {
     try {
         # HTML
-        if ($conf_tab == 'css') {
+        if ($conf_tab == 'presentation') {
             if (!empty($_POST['resume_user_image'])) {
                 $s['resume_user_image'] = $_POST['resume_user_image'];
             } else {
@@ -83,7 +83,7 @@ if (!empty($_POST)) {
             $s['main_color'] = $_POST['main_color'];
         }
 
-        if ($conf_tab == 'html') {
+        if ($conf_tab == 'links') {
             $stickers = [];
             for ($i = 0; $i < count($_POST['sticker_image']); $i++) {
                 $stickers[] = [
@@ -132,7 +132,7 @@ if (!$standalone_config) {
     echo '</form>';
 }
 
-echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'html' ? '' : '-html') . '" title="' . __('Presentation') . '">';
+echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'presentation' ? '' : '-presentation') . '" title="' . __('Presentation') . '">';
 
 echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
@@ -158,14 +158,14 @@ echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
 echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '</label> ' .
     form::color('main_color', 30, 255, $s['main_color']) . '</p>' ;
 
-echo '<p><input type="hidden" name="conf_tab" value="css" /></p>';
+echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
 echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
 echo form::hidden(['theme-url'], $theme_url);
 echo '</form>';
 
 echo '</div>'; // Close tab
 
-echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'css' ? '' : '-css') . '" title="' . __('Links') . '">';
+echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'links' ? '' : '-links') . '" title="' . __('Links') . '">';
 echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
 
@@ -205,7 +205,7 @@ echo
     '</tbody>' .
     '</table></div>';
 
-    echo '<p><input type="hidden" name="conf_tab" value="html" /></p>';
+    echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
     echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
     echo '</form>';
 
