@@ -243,8 +243,8 @@ class tplResumeTheme
     protected static function setSocialLink($position, $last, $label, $url, $image)
     {
         return
-            '<a class="social-icon" title="' . $label . '" href="' . $url . '"><span class="sr-only">' . $label . '</span>' . "\n" .
-            '<i class="' . $image . '"></i>' . "\n" .
+            '<a class="social-icon" title="' . $label . '" href="' . $url . '"><span class="sr-only">' . $label . '</span>' .
+            '<i class="' . $image . '"></i>' .
             '</a>' . "\n";
     }
 

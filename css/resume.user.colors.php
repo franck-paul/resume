@@ -17,7 +17,7 @@ a:hover, a:focus, a:active {
   
 }
 
-.social-icons a:hover {
+.social-icons .social-icon:hover {
   background-color: <?php echo $main_color; ?>;
 }
 
