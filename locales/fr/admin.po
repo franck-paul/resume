@@ -1,17 +1,23 @@
-msgid "Blog's featured publication"
-msgstr "Publication à la une du blog"
-
-msgid "Leave this field empty to use the default presentation (latest post)"
-msgstr "Laisser ce champ vide pour utiliser la présentation par défaut (billet le plus récent)"
-
 msgid "Theme configuration upgraded."
 msgstr "La configuration du thème a été mise à jour."
+
+msgid "Presentation"
+msgstr "Présentation"
+
+msgid "Links"
+msgstr "Liens"
 
 msgid "Profile image"
 msgstr "Image de profil"
 
 msgid "Image URL:"
 msgstr "URL de l'image :"
+
+msgid "Social links"
+msgstr "Liens vers les médias sociaux"
+
+msgid "Social links (header)"
+msgstr "Lien vers les médias sociaux (en-tête)"
 
 msgid "Colors"
 msgstr "Couleurs"

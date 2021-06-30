@@ -14,3 +14,7 @@
 .box img {
     object-fit: cover
 }
+
+.svg-inline--fa {
+    font-size: 2em
+}
