@@ -33,8 +33,8 @@ a:hover, a:focus, a:active {
   color: <?php echo $main_color; ?> !important;
 }
 
-a {
-  color: <?php echo $main_color; ?>;
+#content a:hover {
+  filter: brightness(85%);
 }
 
 ::selection {
