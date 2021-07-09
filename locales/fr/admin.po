@@ -4,8 +4,8 @@ msgstr "La configuration du thème a été mise à jour."
 msgid "Presentation"
 msgstr "Présentation"
 
-msgid "Links"
-msgstr "Liens"
+msgid "Stickers"
+msgstr "Étiquettes"
 
 msgid "Profile image"
 msgstr "Image de profil"
