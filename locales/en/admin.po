@@ -1,0 +1,26 @@
+msgid "Theme configuration upgraded."
+msgstr ""
+
+msgid "Presentation"
+msgstr ""
+
+msgid "Stickers"
+msgstr "Étquettes"
+
+msgid "Profile image"
+msgstr ""
+
+msgid "Image URL:"
+msgstr ""
+
+msgid "Social links"
+msgstr ""
+
+msgid "Social links (header)"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Main color:"
+msgstr ""
