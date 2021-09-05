@@ -137,6 +137,8 @@ echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'presentation' ? 
 echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
 
+echo '<div class="fieldset">';
+
 echo '<h4 class="pretty-title">' . __('Profile image') . '</h4>';
 
 echo '<div class="box theme">';
@@ -153,14 +155,20 @@ echo '<p class="resume-buttons"><button type="button" id="resume_user_image_sele
 echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, $s['resume_user_image']) . '</p>';
 
 echo '</div>';
+echo '</div>'; // Close fieldset
+
+echo '<div class="fieldset">';
 
 echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
 echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '</label> ' .
     form::color('main_color', 30, 255, $s['main_color']) . '</p>' ;
 
+echo '</div>'; // Close fieldset
+
 echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
 echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
 echo form::hidden(['theme-url'], $theme_url);
+
 echo '</form>';
 
 echo '</div>'; // Close tab
@@ -168,6 +176,8 @@ echo '</div>'; // Close tab
 echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'links' ? '' : '-links') . '" title="' . __('Stickers') . '">';
 echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
+    
+echo '<div class="fieldset">';
 
 echo '<h4 class="pretty-title">' . __('Social links') . '</h4>';
 
@@ -204,7 +214,7 @@ foreach ($stickers as $i => $v) {
 echo
     '</tbody>' .
     '</table></div>';
-
+    echo '</div>'; // Close fieldset
     echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
     echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
     echo '</form>';
