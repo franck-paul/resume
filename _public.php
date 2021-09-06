@@ -11,8 +11,6 @@
  * @copyright GPL-2.0
  */
 
-namespace themes\resume;
-
 if (!defined('DC_RC_PATH')) {
     return;
 }
