@@ -9,7 +9,6 @@
  * @copyright GPL-2.0-only
  */
 
-
 if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
@@ -19,24 +18,24 @@ l10n::set(dirname(__FILE__) . '/locales/' . $_lang . '/admin');
 $standalone_config = (boolean) $core->themes->moduleInfo($core->blog->settings->system->theme, 'standalone_config');
 
 if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-    $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+    $theme_url = http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
 } else {
-    $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+    $theme_url = http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
 }
 $resume_default_image_url = $theme_url."/img/profile.jpg";
 
-$s = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
-$s = @unserialize($s);
+$style = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+$style = @unserialize($style);
 
-if (!is_array($s)) {
-    $s = [];
+if (!is_array($style)) {
+    $style = [];
 }
-if (!isset($s['resume_user_image']) || empty($s['resume_user_image'])) {
-    $s['resume_user_image'] = $resume_default_image_url;
+if (!isset($style['resume_user_image']) || empty($style['resume_user_image'])) {
+    $style['resume_user_image'] = $resume_default_image_url;
 }
 
-if (!isset($s['main_color'])) {
-    $s['main_color'] = '#bd5d38';
+if (!isset($style['main_color'])) {
+    $style['main_color'] = '#bd5d38';
 }
 
 $stickers = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
@@ -76,11 +75,11 @@ if (!empty($_POST)) {
         # HTML
         if ($conf_tab == 'presentation') {
             if (!empty($_POST['resume_user_image'])) {
-                $s['resume_user_image'] = $_POST['resume_user_image'];
+                $style['resume_user_image'] = $_POST['resume_user_image'];
             } else {
-                $s['resume_user_image'] = $resume_default_image_url;
+                $style['resume_user_image'] = $resume_default_image_url;
             }
-            $s['main_color'] = $_POST['main_color'];
+            $style['main_color'] = $_POST['main_color'];
         }
 
         if ($conf_tab == 'links') {
@@ -112,7 +111,7 @@ if (!empty($_POST)) {
             }
         }
         $core->blog->settings->addNamespace('themes');
-        $core->blog->settings->themes->put($core->blog->settings->system->theme . '_style', serialize($s));
+        $core->blog->settings->themes->put($core->blog->settings->system->theme . '_style', serialize($style));
         $core->blog->settings->themes->put($core->blog->settings->system->theme . '_stickers', serialize($stickers));
 
         // Blog refresh
@@ -144,15 +143,15 @@ echo '<h4 class="pretty-title">' . __('Profile image') . '</h4>';
 echo '<div class="box theme">';
 
 echo '<p> ' .
-'<img id="resume_user_image_src" alt="' . __('Image URL:') . ' ' . $s['resume_user_image'] .
- '" src="' . $s['resume_user_image'] . '" class="img-profile" />' .
+'<img id="resume_user_image_src" alt="' . __('Image URL:') . ' ' . $style['resume_user_image'] .
+ '" src="' . $style['resume_user_image'] . '" class="img-profile" />' .
  '</p>';
 
 echo '<p class="resume-buttons"><button type="button" id="resume_user_image_selector">' . __('Change') . '</button>' .
 '<button class="delete" type="button" id="resume_user_image_reset">' . __('Reset') . '</button>' .
 '</p>' ;
 
-echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, $s['resume_user_image']) . '</p>';
+echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, $style['resume_user_image']) . '</p>';
 
 echo '</div>';
 echo '</div>'; // Close fieldset
@@ -161,7 +160,7 @@ echo '<div class="fieldset">';
 
 echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
 echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '</label> ' .
-    form::color('main_color', 30, 255, $s['main_color']) . '</p>' ;
+    form::color('main_color', 30, 255, $style['main_color']) . '</p>' ;
 
 echo '</div>'; // Close fieldset
 

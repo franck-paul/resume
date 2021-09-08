@@ -8,7 +8,6 @@
  * @copyright Philippe aka amalgame
  * @copyright GPL-2.0-only
  */
-
 namespace themes\resume;
 
 if (!defined('DC_RC_PATH')) {

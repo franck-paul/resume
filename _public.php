@@ -10,17 +10,18 @@
  * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
+namespace themes\resume;
 
 if (!defined('DC_RC_PATH')) {
     return;
 }
 
 # Simple menu template functions
-$core->tpl->addValue('ResumeSimpleMenu', ['tplResumeSimpleMenu', 'resumeSimpleMenu']);
+$core->tpl->addValue('ResumeSimpleMenu', [__NAMESPACE__ . '\tplResumeSimpleMenu', 'resumeSimpleMenu']);
 
-$core->tpl->addValue('resumeUserColors', ['tplResumeTheme', 'resumeUserColors']);
-$core->tpl->addValue('resumeUserImageSrc', ['tplResumeTheme', 'resumeUserImageSrc']);
-$core->tpl->addValue('resumeSocialLinks', ['tplResumeTheme', 'resumeSocialLinks']);
+$core->tpl->addValue('resumeUserColors', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserColors']);
+$core->tpl->addValue('resumeUserImageSrc', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserImageSrc']);
+$core->tpl->addValue('resumeSocialLinks', [__NAMESPACE__ . '\tplResumeTheme', 'resumeSocialLinks']);
 
 class tplResumeSimpleMenu
 {
@@ -41,7 +42,7 @@ class tplResumeSimpleMenu
             $description = '';
         }
 
-        return '<?php echo tplResumeSimpleMenu::displayMenu(' .
+        return '<?php echo ' . __NAMESPACE__ . '\tplResumeSimpleMenu::displayMenu(' .
         "'" . addslashes($class) . "'," .
         "'" . addslashes($id) . "'," .
         "'" . addslashes($description) . "'" .
@@ -62,10 +63,10 @@ class tplResumeSimpleMenu
         if (is_array($menu)) {
             // Current relative URL
             $url     = $_SERVER['REQUEST_URI'];
-            $abs_url = http::getHost() . $url;
+            $abs_url = \http::getHost() . $url;
 
             // Home recognition var
-            $home_url       = html::stripHostURL($core->blog->url);
+            $home_url       = \html::stripHostURL($core->blog->url);
             $home_directory = dirname($home_url);
             if ($home_directory != '/') {
                 $home_directory = $home_directory . '/';
@@ -75,7 +76,7 @@ class tplResumeSimpleMenu
             foreach ($menu as $i => $m) {
                 # $href = lien de l'item de menu
                 $href = $m['url'];
-                $href = html::escapeHTML($href);
+                $href = \html::escapeHTML($href);
 
                 # Cope with request only URL (ie ?query_part)
                 $href_part = '';
@@ -98,10 +99,10 @@ class tplResumeSimpleMenu
 
                 if ($m['descr']) {
                     if (($description == 'title' || $description == 'both') && $targetBlank) {
-                        $title = html::escapeHTML(__($m['descr'])) . ' (' .
+                        $title = \html::escapeHTML(__($m['descr'])) . ' (' .
                         __('new window') . ')';
                     } elseif ($description == 'title' || $description == 'both') {
-                        $title = html::escapeHTML(__($m['descr']));
+                        $title = \html::escapeHTML(__($m['descr']));
                     }
                     if ($description == 'span' || $description == 'both') {
                         $span = ' <span class="simple-menu-descr">' . html::escapeHTML(__($m['descr'])) . '</span>';
@@ -115,9 +116,9 @@ class tplResumeSimpleMenu
                     $title = (empty($title) ? __('Active page') : $title . ' (' . __('active page') . ')');
                 }
 
-                $label = html::escapeHTML(__($m['label']));
+                $label = \html::escapeHTML(__($m['label']));
 
-                $item = new ArrayObject([
+                $item = new \ArrayObject([
                     'url'    => $href,   // URL
                     'label'  => $label,  // <a> link label
                     'title'  => $title,  // <a> link title (optional)
@@ -155,19 +156,24 @@ class tplResumeTheme
 {
     public static function resumeUserColors($attr)
     {
+        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeUserColorsHelper(); ?>';
+    }
+
+    public static function resumeUserColorsHelper()
+    {
         $core = $GLOBALS['core'];
 
-        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
-        $s = @unserialize($s);
+        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
+        $style = @unserialize($style);
 
-        if (!is_array($s)) {
-            $s = [];
+        if (!is_array($style)) {
+            $style = [];
         }
-        if (!isset($s['main_color'])) {
-            $s['main_color'] = '#bd5d38';
+        if (!isset($style['main_color'])) {
+            $style['main_color'] = '#bd5d38';
         }
 
-        $resume_user_main_color = $s['main_color'];
+        $resume_user_main_color = $style['main_color'];
         
         if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
             $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
@@ -177,18 +183,20 @@ class tplResumeTheme
         
         $resume_user_colors_css_url = $theme_url ."/css/resume.user.colors.php";
 
-        if ($resume_user_main_color !=='#bd5d38') {
+        if ($resume_user_main_color !='#bd5d38') {
             $resume_user_main_color = substr($resume_user_main_color, 1);
-            return
-            "<?php\n" .
-            "echo \"<link rel='stylesheet' type='text/css' href='". $resume_user_colors_css_url ."?main_color=".$resume_user_main_color."' media='screen' />\"" .
-                " ?>\n";
+            return '<link rel="stylesheet" type="text/css" href="'. $resume_user_colors_css_url .'?main_color='.$resume_user_main_color.'" media="screen" />';
         } else {
             return;
         }
     }
 
     public static function resumeUserImageSrc($attr)
+    {
+        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeUserImageSrcHelper(); ?>';
+    }
+
+    public static function resumeUserImageSrcHelper()
     {
         $core = $GLOBALS['core'];
 
@@ -200,38 +208,41 @@ class tplResumeTheme
         
         $resume_default_image_url = $theme_url ."/img/profile.jpg";
 
-        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
-        $s = @unserialize($s);
+        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
+        $style = @unserialize($style);
 
-        if (!is_array($s)) {
-            $s = [];
+        if (!is_array($style)) {
+            $style = [];
         }
-        if (!isset($s['resume_user_image']) || empty($s['resume_user_image'])) {
-            $s['resume_user_image'] = $resume_default_image_url;
+        if (!isset($style['resume_user_image']) || empty($style['resume_user_image'])) {
+            $style['resume_user_image'] = $resume_default_image_url;
         }
-        return
-            "<?php\n" .
-            "echo \"".$s['resume_user_image']."\" ?>\n";
+        return $style['resume_user_image'];
+            
     }
 
     public static function resumeSocialLinks($attr)
+    {
+        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeSocialLinksHelper(); ?>';
+    }
+    public static function resumeSocialLinksHelper()
     {
         global $core;
         # Social media links
         $res     = '';
 
-        $s = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
+        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
 
-        if ($s === null) {
+        if ($style === null) {
             $default = true;
         } else {
-            $s = @unserialize($s);
+            $style = @unserialize($style);
             
-            $s = array_filter($s, 'self::cleanSocialLinks');
+            $style = array_filter($style, 'self::cleanSocialLinks');
                 
             $count = 0;
-            foreach ($s as $sticker) {
-                $res .= self::setSocialLink($count, ($count == count($s)), $sticker['label'], $sticker['url'], $sticker['image']);
+            foreach ($style as $sticker) {
+                $res .= self::setSocialLink($count, ($count == count($style)), $sticker['label'], $sticker['url'], $sticker['image']);
                 $count++;
             }
         }
@@ -248,11 +259,11 @@ class tplResumeTheme
             '</a>' . "\n";
     }
 
-    protected static function cleanSocialLinks($s)
+    protected static function cleanSocialLinks($style)
     {
-        if (is_array($s)) {
-            if (isset($s['label']) && isset($s['url']) && isset($s['image'])) {
-                if ($s['label'] != null && $s['url'] != null && $s['image'] != null) {
+        if (is_array($style)) {
+            if (isset($style['label']) && isset($style['url']) && isset($style['image'])) {
+                if ($style['label'] != null && $style['url'] != null && $style['image'] != null) {
                     return true;
                 }
             }
