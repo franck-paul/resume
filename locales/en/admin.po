@@ -5,7 +5,7 @@ msgid "Presentation"
 msgstr ""
 
 msgid "Stickers"
-msgstr "Étquettes"
+msgstr ""
 
 msgid "Profile image"
 msgstr ""
