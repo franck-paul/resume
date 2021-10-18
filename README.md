@@ -2,7 +2,7 @@
 
 ![Screenshot](screenshot.jpg)
 
-A theme based on Start Bootstrap Resume template (see below)
+A Dotclear theme based on Start Bootstrap Resume template (see below)
 
 # [Start Bootstrap - Resume](https://startbootstrap.com/template-overviews/resume/)
 
