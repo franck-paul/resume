@@ -21,7 +21,7 @@ $(function () {
         } else if ($('#resume_user_image').val() == '') {
             return;
         } else {
-            let src = $('#resume_user_image').val();
+            const src = $('#resume_user_image').val();
             $('#resume_user_image_src').attr('src', src);
             $('#resume_user_image_src').attr('alt', src);
         }
@@ -41,7 +41,7 @@ $(function () {
         });
     });
     $('#theme_config').submit(function () {
-        var order = [];
+        const order = [];
         $('#stickerslist tr td input.position').each(function () {
             order.push(this.name.replace(/^order\[([^\]]+)\]$/, '$1'));
         });
