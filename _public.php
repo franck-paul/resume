@@ -105,7 +105,7 @@ class tplResumeSimpleMenu
                         $title = \html::escapeHTML(__($m['descr']));
                     }
                     if ($description == 'span' || $description == 'both') {
-                        $span = ' <span class="simple-menu-descr">' . html::escapeHTML(__($m['descr'])) . '</span>';
+                        $span = ' <span class="simple-menu-descr">' . \html::escapeHTML(__($m['descr'])) . '</span>';
                     }
                 }
 
@@ -164,7 +164,7 @@ class tplResumeTheme
         $core = $GLOBALS['core'];
 
         $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
-        $style = @unserialize($style);
+        $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
             $style = [];
@@ -209,7 +209,7 @@ class tplResumeTheme
         $resume_default_image_url = $theme_url ."/img/profile.jpg";
 
         $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
-        $style = @unserialize($style);
+        $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
             $style = [];
@@ -236,7 +236,7 @@ class tplResumeTheme
         if ($style === null) {
             $default = true;
         } else {
-            $style = @unserialize($style);
+            $style = $style ? (unserialize($style) ?: []) : [];
             
             $style = array_filter($style, 'self::cleanSocialLinks');
                 

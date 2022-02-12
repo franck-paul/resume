@@ -1,10 +1,10 @@
 <?php
-header("Content-type: text/css; charset=UTF-8");
+header('Content-type: text/css; charset=UTF-8');
 
 if (!empty($_GET['main_color'])) {
-    $main_color = '#'.$_GET['main_color'];
+    $main_color = '#' . $_GET['main_color'];
 } else {
-  $main_color = '#'.'bd5d38';
+    $main_color = '#' . 'bd5d38';
 }
 
 ?>
