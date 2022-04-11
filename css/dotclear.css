@@ -137,7 +137,7 @@ p.post-info span {
 blockquote {
   font-size: 0.9em;
   line-height: 1.33;
-  quotes: "“""”";
+  quotes: "“" "”";
   margin-top: 1.7777778em;
   font-style: italic;
 }
