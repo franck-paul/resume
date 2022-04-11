@@ -30,7 +30,7 @@ class tplResumeThemeAdmin
     public static function adminPageHTMLHead()
     {
         global $core;
-        if ($core->blog->settings->system->theme != 'resume') {
+        if ($core->blog->settings->system->theme !== basename(dirname(__FILE__))) {
             return;
         }
 
@@ -71,7 +71,7 @@ class tplResumeThemeAdmin
     public static function adminPageHTTPHeaderCSP($csp)
     {
         global $core;
-        if ($core->blog->settings->system->theme != 'resume') {
+        if ($core->blog->settings->system->theme !== basename(dirname(__FILE__))) {
             return;
         }
 
