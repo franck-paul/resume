@@ -15,16 +15,16 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 
 l10n::set(dirname(__FILE__) . '/locales/' . $_lang . '/admin');
 
-$standalone_config = (bool) $core->themes->moduleInfo($core->blog->settings->system->theme, 'standalone_config');
+$standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
 
-if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-    $theme_url = http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
+    $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
 } else {
-    $theme_url = http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+    $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
 }
 $resume_default_image_url = $theme_url . '/img/profile.jpg';
 
-$style = $GLOBALS['core']->blog->settings->themes->get($GLOBALS['core']->blog->settings->system->theme . '_style');
+$style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
 $style = $style ? (unserialize($style) ?: []) : [];
 
 if (!is_array($style)) {
@@ -38,7 +38,7 @@ if (!isset($style['main_color'])) {
     $style['main_color'] = '#bd5d38';
 }
 
-$stickers = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
+$stickers = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_stickers');
 $stickers = $stickers ? (unserialize($stickers) ?: []) : [];
 
 $stickers_full = [];
@@ -110,19 +110,19 @@ if (!empty($_POST)) {
                 $stickers = $new_stickers;
             }
         }
-        $core->blog->settings->addNamespace('themes');
-        $core->blog->settings->themes->put($core->blog->settings->system->theme . '_style', serialize($style));
-        $core->blog->settings->themes->put($core->blog->settings->system->theme . '_stickers', serialize($stickers));
+        dcCore::app()->blog->settings->addNamespace('themes');
+        dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_style', serialize($style));
+        dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_stickers', serialize($stickers));
 
         // Blog refresh
-        $core->blog->triggerBlog();
+        dcCore::app()->blog->triggerBlog();
 
         // Template cache reset
-        $core->emptyTemplatesCache();
+        dcCore::app()->emptyTemplatesCache();
 
         dcPage::success(__('Theme configuration upgraded.'), true, true);
     } catch (Exception $e) {
-        $core->error->add($e->getMessage());
+        dcCore::app()->error->add($e->getMessage());
     }
 }
 
@@ -133,7 +133,7 @@ if (!$standalone_config) {
 
 echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'presentation' ? '' : '-presentation') . '" title="' . __('Presentation') . '">';
 
-echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
+echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
 
 echo '<div class="fieldset">';
@@ -165,7 +165,7 @@ echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '
 echo '</div>'; // Close fieldset
 
 echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
-echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
+echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
 echo form::hidden(['theme-url'], $theme_url);
 
 echo '</form>';
@@ -173,7 +173,7 @@ echo '</form>';
 echo '</div>'; // Close tab
 
 echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'links' ? '' : '-links') . '" title="' . __('Stickers') . '">';
-echo '<form id="theme_config" action="' . $core->adminurl->get('admin.blog.theme', ['conf' => '1']) .
+echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
     '" method="post" enctype="multipart/form-data">';
 
 echo '<div class="fieldset">';
@@ -213,10 +213,10 @@ foreach ($stickers as $i => $v) {
 echo
     '</tbody>' .
     '</table></div>';
-    echo '</div>'; // Close fieldset
-    echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
-    echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . $core->formNonce() . '</p>';
-    echo '</form>';
+echo '</div>'; // Close fieldset
+echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
+echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
+echo '</form>';
 
 echo '</div>'; // Close tab
 dcPage::helpBlock('resume');

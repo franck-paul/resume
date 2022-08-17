@@ -17,20 +17,19 @@ if (!defined('DC_RC_PATH')) {
 }
 
 # Simple menu template functions
-$core->tpl->addValue('ResumeSimpleMenu', [__NAMESPACE__ . '\tplResumeSimpleMenu', 'resumeSimpleMenu']);
+\dcCore::app()->tpl->addValue('ResumeSimpleMenu', [__NAMESPACE__ . '\tplResumeSimpleMenu', 'resumeSimpleMenu']);
 
-$core->tpl->addValue('resumeUserColors', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserColors']);
-$core->tpl->addValue('resumeUserImageSrc', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserImageSrc']);
-$core->tpl->addValue('resumeSocialLinks', [__NAMESPACE__ . '\tplResumeTheme', 'resumeSocialLinks']);
+\dcCore::app()->tpl->addValue('resumeUserColors', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserColors']);
+\dcCore::app()->tpl->addValue('resumeUserImageSrc', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserImageSrc']);
+\dcCore::app()->tpl->addValue('resumeSocialLinks', [__NAMESPACE__ . '\tplResumeTheme', 'resumeSocialLinks']);
 
 class tplResumeSimpleMenu
 {
     # Template function
     public static function resumeSimpleMenu($attr)
     {
-        global $core;
 
-        if (!(boolean) $core->blog->settings->system->simpleMenu_active) {
+        if (!(boolean) \dcCore::app()->blog->settings->system->simpleMenu_active) {
             return '';
         }
 
@@ -51,22 +50,21 @@ class tplResumeSimpleMenu
 
     public static function displayMenu($class = '', $id = '', $description = '')
     {
-        global $core;
 
         $ret = '';
 
-        if (!(boolean) $core->blog->settings->system->simpleMenu_active) {
+        if (!(boolean) \dcCore::app()->blog->settings->system->simpleMenu_active) {
             return $ret;
         }
 
-        $menu = $core->blog->settings->system->simpleMenu;
+        $menu = \dcCore::app()->blog->settings->system->simpleMenu;
         if (is_array($menu)) {
             // Current relative URL
             $url     = $_SERVER['REQUEST_URI'];
             $abs_url = \http::getHost() . $url;
 
             // Home recognition var
-            $home_url       = \html::stripHostURL($core->blog->url);
+            $home_url       = \html::stripHostURL(\dcCore::app()->blog->url);
             $home_directory = dirname($home_url);
             if ($home_directory != '/') {
                 $home_directory = $home_directory . '/';
@@ -128,7 +126,7 @@ class tplResumeSimpleMenu
                 ]);
 
                 # --BEHAVIOR-- publicSimpleMenuItem
-                $core->callBehavior('publicSimpleMenuItem', $i, $item);
+                \dcCore::app()->callBehavior('publicSimpleMenuItem', $i, $item);
 
                 $ret .= '<li class="nav-item li' . ($i + 1) .
                     ($item['active'] ? ' active' : '') .
@@ -161,9 +159,8 @@ class tplResumeTheme
 
     public static function resumeUserColorsHelper()
     {
-        $core = $GLOBALS['core'];
 
-        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
+        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
@@ -175,10 +172,10 @@ class tplResumeTheme
 
         $resume_user_main_color = $style['main_color'];
         
-        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
         
         $resume_user_colors_css_url = $theme_url ."/css/resume.user.colors.php";
@@ -198,17 +195,17 @@ class tplResumeTheme
 
     public static function resumeUserImageSrcHelper()
     {
-        $core = $GLOBALS['core'];
+        
 
-        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
         
         $resume_default_image_url = $theme_url ."/img/profile.jpg";
 
-        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_style');
+        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
@@ -227,11 +224,11 @@ class tplResumeTheme
     }
     public static function resumeSocialLinksHelper()
     {
-        global $core;
+        
         # Social media links
         $res     = '';
 
-        $style = $core->blog->settings->themes->get($core->blog->settings->system->theme . '_stickers');
+        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_stickers');
 
         if ($style === null) {
             $default = true;

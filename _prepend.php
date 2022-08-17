@@ -21,31 +21,31 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 // admin part below
 
 // Behaviors
-$GLOBALS['core']->addBehavior('adminPageHTMLHead', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPageHTMLHead']);
-$GLOBALS['core']->addBehavior('adminPopupMedia', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPopupMedia']);
-$GLOBALS['core']->addBehavior('adminPageHTTPHeaderCSP', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPageHTTPHeaderCSP']);
+\dcCore::app()->addBehavior('adminPageHTMLHead', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPageHTMLHead']);
+\dcCore::app()->addBehavior('adminPopupMedia', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPopupMedia']);
+\dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', [__NAMESPACE__ . '\tplResumeThemeAdmin', 'adminPageHTTPHeaderCSP']);
 
 class tplResumeThemeAdmin
 {
     public static function adminPageHTMLHead()
     {
-        global $core;
-        if ($core->blog->settings->system->theme !== basename(dirname(__FILE__))) {
+        
+        if (\dcCore::app()->blog->settings->system->theme !== basename(dirname(__FILE__))) {
             return;
         }
 
-        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
 
         echo '<script src="' . $theme_url . '/js/admin.js' . '"></script>' . "\n" .
         '<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>' . "\n" .
         '<link rel="stylesheet" media="screen" href="' . $theme_url . '/css/admin.css' . '" />' . "\n";
 
-        $core->auth->user_prefs->addWorkspace('accessibility');
-        if (!$core->auth->user_prefs->accessibility->nodragdrop) {
+        \dcCore::app()->auth->user_prefs->addWorkspace('accessibility');
+        if (!\dcCore::app()->auth->user_prefs->accessibility->nodragdrop) {
             echo
             \dcPage::jsLoad('js/jquery/jquery-ui.custom.js') .
             \dcPage::jsLoad('js/jquery/jquery.ui.touch-punch.js');
@@ -54,15 +54,15 @@ class tplResumeThemeAdmin
 
     public static function adminPopupMedia($editor = '')
     {
-        $core = $GLOBALS['core'];
+       
 
         if (empty($editor) || $editor != 'admin.blog.theme') {
             return;
         }
-        if (preg_match('#^http(s)?://#', $core->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL($core->blog->settings->system->themes_url, '/' . $core->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL($core->blog->url, $core->blog->settings->system->themes_url . '/' . $core->blog->settings->system->theme);
+            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
 
         return '<script src="' . $theme_url . '/js/popup_media.js' . '"></script>';
@@ -70,8 +70,7 @@ class tplResumeThemeAdmin
 
     public static function adminPageHTTPHeaderCSP($csp)
     {
-        global $core;
-        if ($core->blog->settings->system->theme !== basename(dirname(__FILE__))) {
+        if (\dcCore::app()->blog->settings->system->theme !== basename(dirname(__FILE__))) {
             return;
         }
 
