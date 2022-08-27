@@ -17,7 +17,7 @@ $this->registerModule(
     'Resume',                                           // Name
     'A simple Bootstrap 5 blog theme',                  // Description
     'Philippe aka amalgame and contributors',           // Author
-    '2.4.1',                                            // Version
+    '2.4.2',                                            // Version
     [                                                   // Properties
         'requires' => [['core', '2.23']], 		        // Dependencies
         'standalone_config' => true,
