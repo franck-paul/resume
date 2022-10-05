@@ -13,7 +13,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
 
-l10n::set(dirname(__FILE__) . '/locales/' . $_lang . '/admin');
+l10n::set(dirname(__FILE__) . '/locales/' . dcCore::app()->lang . '/admin');
 
 $standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
 
@@ -64,8 +64,8 @@ if (is_array($stickers_images)) {
 }
 
 // Load contextual help
-if (file_exists(dirname(__FILE__) . '/locales/' . $_lang . '/resources.php')) {
-    require dirname(__FILE__) . '/locales/' . $_lang . '/resources.php';
+if (file_exists(dirname(__FILE__) . '/locales/' . dcCore::app()->lang . '/resources.php')) {
+    require dirname(__FILE__) . '/locales/' . dcCore::app()->lang . '/resources.php';
 }
 
 $conf_tab = $_POST['conf_tab'] ?? 'presentation';
