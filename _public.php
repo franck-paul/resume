@@ -16,6 +16,8 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
+\l10n::set(dirname(__FILE__) . '/locales/' . \dcCore::app()->lang . '/main');
+
 # Simple menu template functions
 \dcCore::app()->tpl->addValue('ResumeSimpleMenu', [__NAMESPACE__ . '\tplResumeSimpleMenu', 'resumeSimpleMenu']);
 
