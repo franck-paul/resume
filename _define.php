@@ -8,7 +8,6 @@
  * @author Philippe aka amalgame and contributors
  * @copyright GPL-2.0
  */
-
 if (!defined('DC_RC_PATH')) {
     return;
 }
@@ -19,9 +18,9 @@ $this->registerModule(
     'Philippe aka amalgame and contributors',           // Author
     '2.5',                                            // Version
     [                                                   // Properties
-        'requires' => [['core', '2.23']], 		        // Dependencies
+        'requires'          => [['core', '2.23']], 		        // Dependencies
         'standalone_config' => true,
-        'type' => 'theme',
-        'tplset' => 'dotty'
+        'type'              => 'theme',
+        'tplset'            => 'dotty',
     ]
 );

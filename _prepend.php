@@ -8,6 +8,7 @@
  * @copyright Philippe aka amalgame
  * @copyright GPL-2.0-only
  */
+
 namespace themes\resume;
 
 if (!defined('DC_RC_PATH')) {
@@ -29,7 +30,6 @@ class tplResumeThemeAdmin
 {
     public static function adminPageHTMLHead()
     {
-        
         if (\dcCore::app()->blog->settings->system->theme !== basename(dirname(__FILE__))) {
             return;
         }
@@ -54,8 +54,6 @@ class tplResumeThemeAdmin
 
     public static function adminPopupMedia($editor = '')
     {
-       
-
         if (empty($editor) || $editor != 'admin.blog.theme') {
             return;
         }

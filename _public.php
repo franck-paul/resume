@@ -10,6 +10,7 @@
  * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
+
 namespace themes\resume;
 
 if (!defined('DC_RC_PATH')) {
@@ -30,8 +31,7 @@ class tplResumeSimpleMenu
     # Template function
     public static function resumeSimpleMenu($attr)
     {
-
-        if (!(boolean) \dcCore::app()->blog->settings->system->simpleMenu_active) {
+        if (!(bool) \dcCore::app()->blog->settings->system->simpleMenu_active) {
             return '';
         }
 
@@ -52,10 +52,9 @@ class tplResumeSimpleMenu
 
     public static function displayMenu($class = '', $id = '', $description = '')
     {
-
         $ret = '';
 
-        if (!(boolean) \dcCore::app()->blog->settings->system->simpleMenu_active) {
+        if (!(bool) \dcCore::app()->blog->settings->system->simpleMenu_active) {
             return $ret;
         }
 
@@ -88,11 +87,7 @@ class tplResumeSimpleMenu
 
                 # Active item test
                 $active = false;
-                if (($url == $href) ||
-                    ($abs_url == $href) ||
-                    ($_SERVER['URL_REQUEST_PART'] == $href) ||
-                    (($href_part != '') && ($_SERVER['URL_REQUEST_PART'] == $href_part)) ||
-                    (($_SERVER['URL_REQUEST_PART'] == '') && (($href == $home_url) || ($href == $home_directory)))) {
+                if (($url == $href) || ($abs_url == $href) || ($_SERVER['URL_REQUEST_PART'] == $href) || (($href_part != '') && ($_SERVER['URL_REQUEST_PART'] == $href_part)) || (($_SERVER['URL_REQUEST_PART'] == '') && (($href == $home_url) || ($href == $home_directory)))) {
                     $active = true;
                 }
                 $title = $span = '';
@@ -124,7 +119,7 @@ class tplResumeSimpleMenu
                     'title'  => $title,  // <a> link title (optional)
                     'span'   => $span,   // description (will be displayed after <a> link)
                     'active' => $active, // status (true/false)
-                    'class'  => ''      // additional <li> class (optional)
+                    'class'  => '',      // additional <li> class (optional)
                 ]);
 
                 # --BEHAVIOR-- publicSimpleMenuItem
@@ -137,7 +132,7 @@ class tplResumeSimpleMenu
                     ($item['class'] ? ' ' . $item['class'] : '') .
                     '">' .
                     '<a class="nav-link js-scroll-trigger" href="' . $href . '"' .
-                    (!empty($item['title']) ? ' title="'. $label . ' - ' . $item['title'] . '"' : '') .
+                    (!empty($item['title']) ? ' title="' . $label . ' - ' . $item['title'] . '"' : '') .
                     (($targetBlank) ? ' target="_blank" rel="noopener noreferrer"' : '') . '>' .
                     '<span class="simple-menu-label">' . $item['label'] . '</span>' .
                     $item['span'] . '</a>' .
@@ -161,7 +156,6 @@ class tplResumeTheme
 
     public static function resumeUserColorsHelper()
     {
-
         $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
 
@@ -173,21 +167,21 @@ class tplResumeTheme
         }
 
         $resume_user_main_color = $style['main_color'];
-        
+
         if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
             $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
             $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
-        
-        $resume_user_colors_css_url = $theme_url ."/css/resume.user.colors.php";
 
-        if ($resume_user_main_color !='#bd5d38') {
+        $resume_user_colors_css_url = $theme_url . '/css/resume.user.colors.php';
+
+        if ($resume_user_main_color != '#bd5d38') {
             $resume_user_main_color = substr($resume_user_main_color, 1);
-            return '<link rel="stylesheet" type="text/css" href="'. $resume_user_colors_css_url .'?main_color='.$resume_user_main_color.'" media="screen" />';
-        } else {
-            return;
+
+            return '<link rel="stylesheet" type="text/css" href="' . $resume_user_colors_css_url . '?main_color=' . $resume_user_main_color . '" media="screen" />';
         }
+
     }
 
     public static function resumeUserImageSrc($attr)
@@ -197,15 +191,13 @@ class tplResumeTheme
 
     public static function resumeUserImageSrcHelper()
     {
-        
-
         if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
             $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
         } else {
             $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
         }
-        
-        $resume_default_image_url = $theme_url ."/img/profile.jpg";
+
+        $resume_default_image_url = $theme_url . '/img/profile.jpg';
 
         $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
@@ -216,8 +208,8 @@ class tplResumeTheme
         if (!isset($style['resume_user_image']) || empty($style['resume_user_image'])) {
             $style['resume_user_image'] = $resume_default_image_url;
         }
+
         return $style['resume_user_image'];
-            
     }
 
     public static function resumeSocialLinks($attr)
@@ -226,9 +218,8 @@ class tplResumeTheme
     }
     public static function resumeSocialLinksHelper()
     {
-        
         # Social media links
-        $res     = '';
+        $res = '';
 
         $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_stickers');
 
@@ -236,9 +227,9 @@ class tplResumeTheme
             $default = true;
         } else {
             $style = $style ? (unserialize($style) ?: []) : [];
-            
+
             $style = array_filter($style, 'self::cleanSocialLinks');
-                
+
             $count = 0;
             foreach ($style as $sticker) {
                 $res .= self::setSocialLink($count, ($count == count($style)), $sticker['label'], $sticker['url'], $sticker['image']);
@@ -267,6 +258,7 @@ class tplResumeTheme
                 }
             }
         }
+
         return false;
     }
 }
