@@ -18,7 +18,7 @@ $this->registerModule(
     'Philippe aka amalgame and contributors',           // Author
     '2.5',                                            // Version
     [                                                   // Properties
-        'requires'          => [['core', '2.23']], 		        // Dependencies
+        'requires'          => [['core', '2.24']], 		        // Dependencies
         'standalone_config' => true,
         'type'              => 'theme',
         'tplset'            => 'dotty',
