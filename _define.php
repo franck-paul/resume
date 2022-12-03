@@ -13,12 +13,12 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    'Resume',                                           // Name
-    'A simple Bootstrap 5 blog theme',                  // Description
-    'Philippe aka amalgame and contributors',           // Author
-    '2.5',                                            // Version
-    [                                                   // Properties
-        'requires'          => [['core', '2.24']], 		        // Dependencies
+    'Resume',
+    'A simple Bootstrap 5 blog theme',
+    'Philippe aka amalgame and contributors',
+    '2.5',
+    [
+        'requires'          => [['core', '2.24']],
         'standalone_config' => true,
         'type'              => 'theme',
         'tplset'            => 'dotty',
