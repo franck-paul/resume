@@ -228,7 +228,7 @@ class tplResumeTheme
         } else {
             $style = $style ? (unserialize($style) ?: []) : [];
 
-            $style = array_filter($style, 'self::cleanSocialLinks');
+            $style = array_filter($style, self::class . '::cleanSocialLinks');
 
             $count = 0;
             foreach ($style as $sticker) {
