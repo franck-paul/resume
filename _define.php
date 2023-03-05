@@ -16,7 +16,7 @@ $this->registerModule(
     'Resume',
     'A simple Bootstrap 5 blog theme',
     'Philippe aka amalgame and contributors',
-    '2.5',
+    '3.0',
     [
         'requires'          => [['core', '2.24']],
         'standalone_config' => true,
