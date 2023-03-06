@@ -1,15 +1,17 @@
 <?php
 /**
- * @brief Ductile, a theme for Dotclear 2
+ * @brief Resume, a theme for Dotclear 2
  *
  * @package Dotclear
  * @subpackage Themes
  *
- * @copyright Olivier Meunier & Association Dotclear
- * @copyright GPL-2.0-only
+ * @author Start Bootstrap and Philippe aka amalgame
+ *
+ * @copyright Philippe Hénaff philippe@dissitou.org
+ * @copyright GPL-2.0
  */
 
-namespace Dotclear\Theme\ductile;
+namespace Dotclear\Theme\Resume;
 
 use ArrayObject;
 use dcCore;
@@ -35,18 +37,13 @@ class Frontend extends dcNsProcess
 
         l10n::set(__DIR__ . '/../locales/' . dcCore::app()->lang . '/main');
 
-        # Behaviors
-        dcCore::app()->addBehaviors([
-            'publicHeadContent'  => [self::class, 'publicHeadContent'],
-            'publicInsideFooter' => [self::class, 'publicInsideFooter'],
-        ]);
-
         # Templates
-        dcCore::app()->tpl->addValue('ductileEntriesList', [self::class, 'ductileEntriesList']);
-        dcCore::app()->tpl->addBlock('EntryIfContentIsCut', [self::class, 'EntryIfContentIsCut']);
-        dcCore::app()->tpl->addValue('ductileNbEntryPerPage', [self::class, 'ductileNbEntryPerPage']);
-        dcCore::app()->tpl->addValue('ductileLogoSrc', [self::class, 'ductileLogoSrc']);
-        dcCore::app()->tpl->addBlock('IfPreviewIsNotMandatory', [self::class, 'IfPreviewIsNotMandatory']);
+        # Simple menu template functions
+        dcCore::app()->tpl->addValue('ResumeSimpleMenu', [self::class, 'resumeSimpleMenu']);
+
+        dcCore::app()->tpl->addValue('resumeUserColors', [self::class, 'resumeUserColors']);
+        dcCore::app()->tpl->addValue('resumeUserImageSrc', [self::class, 'resumeUserImageSrc']);
+        dcCore::app()->tpl->addValue('resumeSocialLinks', [self::class, 'resumeSocialLinks']);
 
         return true;
     }
@@ -540,20 +537,20 @@ class Frontend extends dcNsProcess
         'Ductile alternate' => '"Franklin gothic medium", "arial narrow", "DejaVu Sans Condensed", "helvetica neue", helvetica, sans-serif',
 
         // Serif families
-        'Times New Roman'   => 'Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif',
-        'Georgia'           => 'Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif',
-        'Garamond'          => '"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif',
+        'Times New Roman' => 'Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif',
+        'Georgia'         => 'Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif',
+        'Garamond'        => '"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif',
 
         // Sans-serif families
-        'Helvetica/Arial'   => 'Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif',
-        'Verdana'           => 'Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif',
-        'Trebuchet MS'      => '"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif',
+        'Helvetica/Arial' => 'Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif',
+        'Verdana'         => 'Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif',
+        'Trebuchet MS'    => '"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif',
 
         // Cursive families
-        'Impact'            => 'Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif',
+        'Impact' => 'Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif',
 
         // Monospace families
-        'Monospace'         => 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace',
+        'Monospace' => 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace',
     ];
 
     protected static function fontDef($c)
