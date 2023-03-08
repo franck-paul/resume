@@ -1,12 +1,14 @@
 <?php
 /**
- * @brief Ductile, a theme for Dotclear 2
+ * @brief Resume, a theme for Dotclear 2
  *
  * @package Dotclear
  * @subpackage Themes
  *
- * @copyright Olivier Meunier & Association Dotclear
- * @copyright GPL-2.0-only
+ * @author Start Bootstrap and Philippe aka amalgame
+ *
+ * @copyright Philippe Hénaff philippe@dissitou.org
+ * @copyright GPL-2.0
  */
 
 namespace Dotclear\Theme\Resume;
@@ -16,7 +18,6 @@ use dcNsProcess;
 use dcPage;
 use Exception;
 use form;
-use html;
 use http;
 use l10n;
 

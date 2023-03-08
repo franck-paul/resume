@@ -5,7 +5,9 @@
  * @package Dotclear
  * @subpackage Themes
  *
- * @author Philippe aka amalgame and contributors
+ * @author Start Bootstrap and Philippe aka amalgame
+ *
+ * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
 if (!defined('DC_RC_PATH')) {
