@@ -9,12 +9,11 @@
  * @copyright GPL-2.0-only
  */
 
-namespace Dotclear\Theme\Resumee;
+namespace Dotclear\Theme\Resume;
 
 use dcCore;
 use dcNsProcess;
 use dcPage;
-use dcThemeConfig;
 use Exception;
 use form;
 use html;
@@ -33,10 +32,10 @@ class Config extends dcNsProcess
 
         l10n::set(__DIR__ . '/../locales/' . dcCore::app()->lang . '/admin');
 
-        if (preg_match('#^http(s)?://#', (string) dcCore::app()->blog->settings->system->themes_url)) {
-            dcCore::app()->admin->img_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme . '/img/');
+        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
         } else {
-            dcCore::app()->admin->img_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme . '/img/');
+            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
         dcCore::app()->admin->standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
@@ -103,10 +102,16 @@ class Config extends dcNsProcess
 
         self::$init = true;
 
+        $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
+        $style = $style ? (unserialize($style) ?: []) : [];
+
+        $stickers = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_stickers');
+        $stickers = $stickers ? (unserialize($stickers) ?: []) : [];
+
         if (!empty($_POST)) {
             try {
                 // HTML
-                if ($conf_tab == 'presentation') {
+                if (dcCore::app()->admin->conf_tab == 'presentation') {
                     if (!empty($_POST['resume_user_image'])) {
                         $style['resume_user_image'] = $_POST['resume_user_image'];
                     } else {
@@ -115,7 +120,7 @@ class Config extends dcNsProcess
                     $style['main_color'] = $_POST['main_color'];
                 }
 
-                if ($conf_tab == 'links') {
+                if (dcCore::app()->admin->conf_tab == 'links') {
                     $stickers = [];
                     for ($i = 0; $i < count($_POST['sticker_image']); $i++) {
                         $stickers[] = [
@@ -174,56 +179,81 @@ class Config extends dcNsProcess
         if (!dcCore::app()->admin->standalone_config) {
             echo '</form>';
         }
-        
-        echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'presentation' ? '' : '-presentation') . '" title="' . __('Presentation') . '">';
-        
+
+        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
+        } else {
+            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
+        }
+
+        $resume_default_image_url = $theme_url . '/img/profile.jpg';
+
+        $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
+        $style = $style ? (unserialize($style) ?: []) : [];
+
+        if (!is_array($style)) {
+            $style = [];
+        }
+        if (!isset($style['resume_user_image']) || empty($style['resume_user_image'])) {
+            $style['resume_user_image'] = $resume_default_image_url;
+        }
+
+        if (!isset($style['main_color'])) {
+            $style['main_color'] = '#bd5d38';
+        }
+
+        $stickers = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_stickers');
+        $stickers = $stickers ? (unserialize($stickers) ?: []) : [];
+
+        echo '<div class="multi-part" id="themes-list' . (dcCore::app()->admin->conf_tab == 'presentation' ? '' : '-presentation') . '" title="' . __('Presentation') . '">';
+
         echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
             '" method="post" enctype="multipart/form-data">';
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Profile image') . '</h4>';
-        
+
         echo '<div class="box theme">';
-        
+
         echo '<p> ' .
         '<img id="resume_user_image_src" alt="' . __('Image URL:') . ' ' . $style['resume_user_image'] .
          '" src="' . $style['resume_user_image'] . '" class="img-profile" />' .
          '</p>';
-        
+
         echo '<p class="resume-buttons"><button type="button" id="resume_user_image_selector">' . __('Change') . '</button>' .
         '<button class="delete" type="button" id="resume_user_image_reset">' . __('Reset') . '</button>' .
         '</p>' ;
-        
+
         echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, $style['resume_user_image']) . '</p>';
-        
+
         echo '</div>';
         echo '</div>'; // Close fieldset
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
         echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '</label> ' .
             form::color('main_color', 30, 255, $style['main_color']) . '</p>' ;
-        
+
         echo '</div>'; // Close fieldset
-        
+
         echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
         echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
         echo form::hidden(['theme-url'], $theme_url);
-        
+
         echo '</form>';
-        
+
         echo '</div>'; // Close tab
-        
-        echo '<div class="multi-part" id="themes-list' . ($conf_tab == 'links' ? '' : '-links') . '" title="' . __('Stickers') . '">';
+
+        echo '<div class="multi-part" id="themes-list' . (dcCore::app()->admin->conf_tab == 'links' ? '' : '-links') . '" title="' . __('Stickers') . '">';
         echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
             '" method="post" enctype="multipart/form-data">';
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Social links') . '</h4>';
-        
+
         echo
         '<div class="table-outer">' .
         '<table class="dragable">' . '<caption class="sr-only">' . __('Social links (header)') . '</caption>' .
@@ -261,7 +291,7 @@ class Config extends dcNsProcess
         echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
         echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
         echo '</form>';
-        
+
         echo '</div>'; // Close tab
         dcPage::helpBlock('resume');
 
