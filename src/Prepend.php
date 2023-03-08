@@ -13,7 +13,6 @@
 
 namespace Dotclear\Theme\Resume;
 
-use ArrayObject;
 use dcCore;
 use dcNsProcess;
 use dcPage;
@@ -46,6 +45,7 @@ class Prepend extends dcNsProcess
             }
 
             echo '<script src="' . $theme_url . '/js/admin.js' . '"></script>' . "\n" .
+            '<script src="' . $theme_url . '/js/popup_media.js' . '"></script>' . "\n" .
             '<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>' . "\n" .
             '<link rel="stylesheet" media="screen" href="' . $theme_url . '/css/admin.css' . '" />' . "\n";
 
@@ -57,21 +57,14 @@ class Prepend extends dcNsProcess
             }
         });
 
-        dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', [self::class, 'adminPageHTTPHeaderCSP']);
+        dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', function ($csp) {
+            if (isset($csp['script-src'])) {
+                $csp['script-src'] .= ' use.fontawesome.com';
+            } else {
+                $csp['script-src'] = 'use.fontawesome.com';
+            }
+        });
 
         return true;
-    }
-
-    public static function adminPageHTTPHeaderCSP($csp)
-    {
-        if (dcCore::app()->blog->settings->system->theme !== basename(dirname(__FILE__))) {
-            return;
-        }
-
-        if (isset($csp['script-src'])) {
-            $csp['script-src'] .= ' use.fontawesome.com';
-        } else {
-            $csp['script-src'] = 'use.fontawesome.com';
-        }
     }
 }
