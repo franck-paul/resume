@@ -14,7 +14,6 @@ namespace Dotclear\Theme\Resume;
 use dcCore;
 use dcNsProcess;
 use dcPage;
-use dcThemeConfig;
 use Exception;
 use form;
 use html;
@@ -89,6 +88,7 @@ class Config extends dcNsProcess
 
         dcCore::app()->admin->stickers = $stickers;
         dcCore::app()->admin->style = $style;
+        dcCore::app()->admin->theme_url = $theme_url;
 
         $conf_tab = $_POST['conf_tab'] ?? 'presentation';
 
@@ -109,16 +109,19 @@ class Config extends dcNsProcess
         if (!empty($_POST)) {
             try {
                 // HTML
-                if ($conf_tab == 'presentation') {
+                if ($_POST['conf_tab'] == 'presentation') {
+                    $style = [];
                     if (!empty($_POST['resume_user_image'])) {
                         $style['resume_user_image'] = $_POST['resume_user_image'];
                     } else {
                         $style['resume_user_image'] = $resume_default_image_url;
                     }
                     $style['main_color'] = $_POST['main_color'];
+
+                    dcCore::app()->admin->style = $style;
                 }
 
-                if ($conf_tab == 'links') {
+                if ($_POST['conf_tab'] == 'links') {
                     $stickers = [];
                     for ($i = 0; $i < count($_POST['sticker_image']); $i++) {
                         $stickers[] = [
@@ -145,10 +148,11 @@ class Config extends dcNsProcess
                         }
                         $stickers = $new_stickers;
                     }
+                    dcCore::app()->admin->stickers = $stickers;
+                    
                 }
-                dcCore::app()->blog->settings->addNamespace('themes');
-                dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_style', serialize($style));
-                dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_stickers', serialize($stickers));
+                dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_style', serialize(dcCore::app()->admin->style));
+                dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_stickers', serialize(dcCore::app()->admin->stickers));
 
                 // Blog refresh
                 dcCore::app()->blog->triggerBlog();
@@ -213,7 +217,7 @@ class Config extends dcNsProcess
         
         echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
         echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
-        echo form::hidden(['theme-url'], $theme_url);
+        echo form::hidden(['theme-url'], dcCore::app()->admin->theme_url);
         
         echo '</form>';
         

@@ -16,7 +16,6 @@ namespace Dotclear\Theme\Resume;
 use ArrayObject;
 use dcCore;
 use dcNsProcess;
-use dcThemeConfig;
 use files;
 use l10n;
 use http;
