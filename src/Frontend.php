@@ -16,7 +16,6 @@ namespace Dotclear\Theme\Resume;
 use ArrayObject;
 use dcCore;
 use dcNsProcess;
-use files;
 use l10n;
 use http;
 use html;
@@ -197,12 +196,11 @@ class Frontend extends dcNsProcess
 
             return '<link rel="stylesheet" type="text/css" href="' . $resume_user_colors_css_url . '?main_color=' . $resume_user_main_color . '" media="screen" />';
         }
-
     }
 
     public static function resumeUserImageSrc($attr)
     {
-        return '<?php echo ' .self::class . '::resumeUserImageSrcHelper(); ?>';
+        return '<?php echo ' . self::class . '::resumeUserImageSrcHelper(); ?>';
     }
 
     public static function resumeUserImageSrcHelper()
