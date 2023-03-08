@@ -90,7 +90,7 @@ class Config extends dcNsProcess
         dcCore::app()->admin->style = $style;
         dcCore::app()->admin->theme_url = $theme_url;
 
-        $conf_tab = $_POST['conf_tab'] ?? 'presentation';
+        dcCore::app()->admin->conf_tab = $_POST['conf_tab'] ?? 'presentation';
 
         return self::$init;
     }
@@ -109,7 +109,7 @@ class Config extends dcNsProcess
         if (!empty($_POST)) {
             try {
                 // HTML
-                if ($_POST['conf_tab'] == 'presentation') {
+                if ($_POST['conf_tab'] === 'presentation') {
                     $style = [];
                     if (!empty($_POST['resume_user_image'])) {
                         $style['resume_user_image'] = $_POST['resume_user_image'];
@@ -121,7 +121,7 @@ class Config extends dcNsProcess
                     dcCore::app()->admin->style = $style;
                 }
 
-                if ($_POST['conf_tab'] == 'links') {
+                if ($_POST['conf_tab'] === 'links') {
                     $stickers = [];
                     for ($i = 0; $i < count($_POST['sticker_image']); $i++) {
                         $stickers[] = [
