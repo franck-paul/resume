@@ -101,11 +101,9 @@ class Config extends dcNsProcess
      */
     public static function process(): bool
     {
-        if (!defined('DC_CONTEXT_ADMIN')) {
+        if (!self::$init) {
             return false;
         }
-
-        self::$init = true;
 
         if (!empty($_POST)) {
             try {
