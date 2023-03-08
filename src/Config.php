@@ -97,9 +97,11 @@ class Config extends dcNsProcess
      */
     public static function process(): bool
     {
-        if (!self::$init) {
+        if (!defined('DC_CONTEXT_ADMIN')) {
             return false;
         }
+
+        self::$init = true;
 
         if (!empty($_POST)) {
             try {
@@ -169,7 +171,7 @@ class Config extends dcNsProcess
             return;
         }
 
-        if (!$standalone_config) {
+        if (!dcCore::app()->admin->standalone_config) {
             echo '</form>';
         }
         
