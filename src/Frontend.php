@@ -11,27 +11,45 @@
  * @copyright GPL-2.0
  */
 
-namespace themes\resume;
+namespace Dotclear\Theme\Resume;
 
-if (!defined('DC_RC_PATH')) {
-    return;
-}
+use ArrayObject;
+use dcCore;
+use dcNsProcess;
+use files;
+use l10n;
+use http;
+use html;
 
-\l10n::set(dirname(__FILE__) . '/locales/' . \dcCore::app()->lang . '/main');
-
-# Simple menu template functions
-\dcCore::app()->tpl->addValue('ResumeSimpleMenu', [__NAMESPACE__ . '\tplResumeSimpleMenu', 'resumeSimpleMenu']);
-
-\dcCore::app()->tpl->addValue('resumeUserColors', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserColors']);
-\dcCore::app()->tpl->addValue('resumeUserImageSrc', [__NAMESPACE__ . '\tplResumeTheme', 'resumeUserImageSrc']);
-\dcCore::app()->tpl->addValue('resumeSocialLinks', [__NAMESPACE__ . '\tplResumeTheme', 'resumeSocialLinks']);
-
-class tplResumeSimpleMenu
+class Frontend extends dcNsProcess
 {
-    # Template function
-    public static function resumeSimpleMenu($attr)
+    public static function init(): bool
     {
-        if (!(bool) \dcCore::app()->blog->settings->system->simpleMenu_active) {
+        self::$init = defined('DC_RC_PATH');
+
+        return self::$init;
+    }
+
+    public static function process(): bool
+    {
+        if (!self::$init) {
+            return false;
+        }
+
+        l10n::set(__DIR__ . '/../locales/' . dcCore::app()->lang . '/main');
+
+        # Templates
+        dcCore::app()->tpl->addValue('ResumeSimpleMenu', [self::class, 'resumeSimpleMenu']);
+        dcCore::app()->tpl->addValue('resumeUserColors', [self::class, 'resumeUserColors']);
+        dcCore::app()->tpl->addValue('resumeUserImageSrc', [self::class, 'resumeUserImageSrc']);
+        dcCore::app()->tpl->addValue('resumeSocialLinks', [self::class, 'resumeSocialLinks']);
+
+        return true;
+    }
+
+    public static function resumeSimpleMenu(ArrayObject $attr): string
+    {
+        if (!(bool) dcCore::app()->blog->settings->system->simpleMenu_active) {
             return '';
         }
 
@@ -43,29 +61,29 @@ class tplResumeSimpleMenu
             $description = '';
         }
 
-        return '<?php echo ' . __NAMESPACE__ . '\tplResumeSimpleMenu::displayMenu(' .
+        return '<?php echo ' . self::class . '::displayMenu(' .
         "'" . addslashes($class) . "'," .
         "'" . addslashes($id) . "'," .
         "'" . addslashes($description) . "'" .
             '); ?>';
     }
 
-    public static function displayMenu($class = '', $id = '', $description = '')
+    public static function displayMenu(string $class = '', string $id = '', string $description = ''): string
     {
         $ret = '';
 
-        if (!(bool) \dcCore::app()->blog->settings->system->simpleMenu_active) {
+        if (!(bool) dcCore::app()->blog->settings->system->simpleMenu_active) {
             return $ret;
         }
 
-        $menu = \dcCore::app()->blog->settings->system->simpleMenu;
+        $menu = dcCore::app()->blog->settings->system->simpleMenu;
         if (is_array($menu)) {
             // Current relative URL
             $url     = $_SERVER['REQUEST_URI'];
-            $abs_url = \http::getHost() . $url;
+            $abs_url = http::getHost() . $url;
 
             // Home recognition var
-            $home_url       = \html::stripHostURL(\dcCore::app()->blog->url);
+            $home_url       = html::stripHostURL(dcCore::app()->blog->url);
             $home_directory = dirname($home_url);
             if ($home_directory != '/') {
                 $home_directory = $home_directory . '/';
@@ -75,7 +93,7 @@ class tplResumeSimpleMenu
             foreach ($menu as $i => $m) {
                 # $href = lien de l'item de menu
                 $href = $m['url'];
-                $href = \html::escapeHTML($href);
+                $href = html::escapeHTML($href);
 
                 # Cope with request only URL (ie ?query_part)
                 $href_part = '';
@@ -94,13 +112,13 @@ class tplResumeSimpleMenu
 
                 if ($m['descr']) {
                     if (($description == 'title' || $description == 'both') && $targetBlank) {
-                        $title = \html::escapeHTML(__($m['descr'])) . ' (' .
+                        $title = html::escapeHTML(__($m['descr'])) . ' (' .
                         __('new window') . ')';
                     } elseif ($description == 'title' || $description == 'both') {
-                        $title = \html::escapeHTML(__($m['descr']));
+                        $title = html::escapeHTML(__($m['descr']));
                     }
                     if ($description == 'span' || $description == 'both') {
-                        $span = ' <span class="simple-menu-descr">' . \html::escapeHTML(__($m['descr'])) . '</span>';
+                        $span = ' <span class="simple-menu-descr">' . html::escapeHTML(__($m['descr'])) . '</span>';
                     }
                 }
 
@@ -111,9 +129,9 @@ class tplResumeSimpleMenu
                     $title = (empty($title) ? __('Active page') : $title . ' (' . __('active page') . ')');
                 }
 
-                $label = \html::escapeHTML(__($m['label']));
+                $label = html::escapeHTML(__($m['label']));
 
-                $item = new \ArrayObject([
+                $item = new ArrayObject([
                     'url'    => $href,   // URL
                     'label'  => $label,  // <a> link label
                     'title'  => $title,  // <a> link title (optional)
@@ -123,7 +141,7 @@ class tplResumeSimpleMenu
                 ]);
 
                 # --BEHAVIOR-- publicSimpleMenuItem
-                \dcCore::app()->callBehavior('publicSimpleMenuItem', $i, $item);
+                dcCore::app()->callBehavior('publicSimpleMenuItem', $i, $item);
 
                 $ret .= '<li class="nav-item li' . ($i + 1) .
                     ($item['active'] ? ' active' : '') .
@@ -146,17 +164,15 @@ class tplResumeSimpleMenu
 
         return $ret;
     }
-}
-class tplResumeTheme
-{
-    public static function resumeUserColors($attr)
+
+    public static function resumeUserColors(ArrayObject $attr): string
     {
-        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeUserColorsHelper(); ?>';
+        return '<?php echo ' . self::class . '::resumeUserColorsHelper(); ?>';
     }
 
     public static function resumeUserColorsHelper()
     {
-        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
+        $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
@@ -168,10 +184,10 @@ class tplResumeTheme
 
         $resume_user_main_color = $style['main_color'];
 
-        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
+            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
         $resume_user_colors_css_url = $theme_url . '/css/resume.user.colors.php';
@@ -186,20 +202,20 @@ class tplResumeTheme
 
     public static function resumeUserImageSrc($attr)
     {
-        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeUserImageSrcHelper(); ?>';
+        return '<?php echo ' .self::class . '::resumeUserImageSrcHelper(); ?>';
     }
 
     public static function resumeUserImageSrcHelper()
     {
-        if (preg_match('#^http(s)?://#', \dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = \http::concatURL(\dcCore::app()->blog->settings->system->themes_url, '/' . \dcCore::app()->blog->settings->system->theme);
+        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
+            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = \http::concatURL(\dcCore::app()->blog->url, \dcCore::app()->blog->settings->system->themes_url . '/' . \dcCore::app()->blog->settings->system->theme);
+            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
         $resume_default_image_url = $theme_url . '/img/profile.jpg';
 
-        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_style');
+        $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
 
         if (!is_array($style)) {
@@ -214,14 +230,14 @@ class tplResumeTheme
 
     public static function resumeSocialLinks($attr)
     {
-        return '<?php echo ' . __NAMESPACE__ . '\tplResumeTheme::resumeSocialLinksHelper(); ?>';
+        return '<?php echo ' . self::class . '::resumeSocialLinksHelper(); ?>';
     }
     public static function resumeSocialLinksHelper()
     {
         # Social media links
         $res = '';
 
-        $style = \dcCore::app()->blog->settings->themes->get(\dcCore::app()->blog->settings->system->theme . '_stickers');
+        $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_stickers');
 
         if ($style === null) {
             $default = true;
