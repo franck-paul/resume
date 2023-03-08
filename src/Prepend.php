@@ -13,6 +13,7 @@
 
 namespace Dotclear\Theme\Resume;
 
+use ArrayObject;
 use dcCore;
 use dcNsProcess;
 use dcPage;
@@ -56,6 +57,21 @@ class Prepend extends dcNsProcess
             }
         });
 
+        dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', [self::class, 'adminPageHTTPHeaderCSP']);
+
         return true;
+    }
+
+    public static function adminPageHTTPHeaderCSP($csp)
+    {
+        if (dcCore::app()->blog->settings->system->theme !== basename(dirname(__FILE__))) {
+            return;
+        }
+
+        if (isset($csp['script-src'])) {
+            $csp['script-src'] .= ' use.fontawesome.com';
+        } else {
+            $csp['script-src'] = 'use.fontawesome.com';
+        }
     }
 }
