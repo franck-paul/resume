@@ -86,8 +86,8 @@ class Config extends dcNsProcess
             }
         }
 
-        dcCore::app()->admin->stickers = $stickers;
-        dcCore::app()->admin->style = $style;
+        dcCore::app()->admin->stickers  = $stickers;
+        dcCore::app()->admin->style     = $style;
         dcCore::app()->admin->theme_url = $theme_url;
 
         dcCore::app()->admin->conf_tab = $_POST['conf_tab'] ?? 'presentation';
@@ -149,7 +149,6 @@ class Config extends dcNsProcess
                         $stickers = $new_stickers;
                     }
                     dcCore::app()->admin->stickers = $stickers;
-                    
                 }
                 dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_style', serialize(dcCore::app()->admin->style));
                 dcCore::app()->blog->settings->themes->put(dcCore::app()->blog->settings->system->theme . '_stickers', serialize(dcCore::app()->admin->stickers));
@@ -181,56 +180,56 @@ class Config extends dcNsProcess
         if (!dcCore::app()->admin->standalone_config) {
             echo '</form>';
         }
-        
+
         echo '<div class="multi-part" id="themes-list' . (dcCore::app()->admin->conf_tab === 'presentation' ? '' : '-presentation') . '" title="' . __('Presentation') . '">';
-        
+
         echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
             '" method="post" enctype="multipart/form-data">';
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Profile image') . '</h4>';
-        
+
         echo '<div class="box theme">';
-        
+
         echo '<p> ' .
         '<img id="resume_user_image_src" alt="' . __('Image URL:') . ' ' . dcCore::app()->admin->style['resume_user_image'] .
          '" src="' . dcCore::app()->admin->style['resume_user_image'] . '" class="img-profile" />' .
          '</p>';
-        
+
         echo '<p class="resume-buttons"><button type="button" id="resume_user_image_selector">' . __('Change') . '</button>' .
         '<button class="delete" type="button" id="resume_user_image_reset">' . __('Reset') . '</button>' .
         '</p>' ;
-        
+
         echo '<p class="hidden-if-js">' . form::field('resume_user_image', 30, 255, dcCore::app()->admin->style['resume_user_image']) . '</p>';
-        
+
         echo '</div>';
         echo '</div>'; // Close fieldset
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Colors') . '</h4>';
         echo '<p class="field maximal"><label for="main_color">' . __('Main color:') . '</label> ' .
             form::color('main_color', 30, 255, dcCore::app()->admin->style['main_color']) . '</p>' ;
-        
+
         echo '</div>'; // Close fieldset
-        
+
         echo '<p><input type="hidden" name="conf_tab" value="presentation" /></p>';
         echo '<p class="clear"><input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
         echo form::hidden(['theme-url'], dcCore::app()->admin->theme_url);
-        
+
         echo '</form>';
-        
+
         echo '</div>'; // Close tab
-        
+
         echo '<div class="multi-part" id="themes-list' . (dcCore::app()->admin->conf_tab === 'links' ? '' : '-links') . '" title="' . __('Stickers') . '">';
         echo '<form id="theme_config" action="' . dcCore::app()->adminurl->get('admin.blog.theme', ['conf' => '1']) .
             '" method="post" enctype="multipart/form-data">';
-        
+
         echo '<div class="fieldset">';
-        
+
         echo '<h4 class="pretty-title">' . __('Social links') . '</h4>';
-        
+
         echo
         '<div class="table-outer">' .
         '<table class="dragable">' . '<caption class="sr-only">' . __('Social links (header)') . '</caption>' .
@@ -268,7 +267,7 @@ class Config extends dcNsProcess
         echo '<p><input type="hidden" name="conf_tab" value="links" /></p>';
         echo '<p class="clear">' . form::hidden('ds_order', '') . '<input type="submit" value="' . __('Save') . '" />' . dcCore::app()->formNonce() . '</p>';
         echo '</form>';
-        
+
         echo '</div>'; // Close tab
         dcPage::helpBlock('resume');
 
