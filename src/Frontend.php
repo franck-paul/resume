@@ -205,13 +205,7 @@ class Frontend extends dcNsProcess
 
     public static function resumeUserImageSrcHelper()
     {
-        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
-        } else {
-            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
-        }
-
-        $resume_default_image_url = $theme_url . '/img/profile.jpg';
+        $resume_default_image_url = dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme . '/img/profile.jpg';
 
         $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
