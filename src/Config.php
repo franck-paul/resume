@@ -158,7 +158,7 @@ class Config extends dcNsProcess
                 // Template cache reset
                 dcCore::app()->emptyTemplatesCache();
 
-                dcPage::message(__('Theme configuration upgraded.'), true, true);
+                dcPage::success(__('Theme configuration upgraded.'), true, true);
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
