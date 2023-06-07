@@ -592,3 +592,8 @@ button.submit {
   color: #fff;
   filter: brightness(100%);
 }
+
+.social-icons a:hover {
+  color: #fff;
+  filter: brightness(100%);
+}
