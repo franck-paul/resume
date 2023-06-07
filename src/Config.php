@@ -100,7 +100,7 @@ class Config extends dcNsProcess
      */
     public static function process(): bool
     {
-        if (!self::$init) {
+        if (!static::$init) {
             return false;
         }
 
@@ -171,8 +171,8 @@ class Config extends dcNsProcess
      */
     public static function render(): void
     {
-        if (!self::$init) {
-            return;
+        if (!static::$init) {
+            return false;
         }
 
         if (!dcCore::app()->admin->standalone_config) {
