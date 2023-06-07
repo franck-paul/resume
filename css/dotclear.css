@@ -589,10 +589,14 @@ button.submit {
   background-color: var(--bs-primary);
 }
 
-#sideNav a:hover {
+#sideNav a:hover, #sideNav a:active, #sideNav a:focus {
   color: #fff;
   filter: brightness(100%);
 }
+
+/*#sideNav .active > a {
+  color: #fff;
+}*/
 
 .social-icons a:hover {
   color: #fff;
