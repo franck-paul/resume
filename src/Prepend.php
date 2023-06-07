@@ -57,7 +57,7 @@ class Prepend extends dcNsProcess
         });
 
         dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', function ($csp) {
-            if (dcCore::app()->blog->settings->system->theme !== basename(dirname(__DIR__))) {
+            if (dcCore::app()->blog->settings->system->theme !== My::id()) {
                 return;
             }
 
