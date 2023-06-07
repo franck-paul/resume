@@ -188,12 +188,11 @@ class Frontend extends dcNsProcess
             $theme_url = Http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
-        $resume_user_colors_css_url = $theme_url . '/css/resume.user.colors.php';
-
         if ($resume_user_main_color != '#bd5d38') {
-            $resume_user_main_color = substr($resume_user_main_color, 1);
-
-            return '<link rel="stylesheet" type="text/css" href="' . $resume_user_colors_css_url . '?main_color=' . $resume_user_main_color . '" media="screen" />';
+            return
+            '<style type="text/css">' . "\n" .
+            ':root {--bs-primary: ' . $resume_user_main_color . '}' . "\n" .
+            '</style>' . "\n";
         }
     }
 
