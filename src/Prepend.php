@@ -33,7 +33,7 @@ class Prepend extends dcNsProcess
         }
 
         dcCore::app()->addBehavior('adminPageHTMLHead', function () {
-            if (dcCore::app()->blog->settings->system->theme !== basename(dirname(__DIR__))) {
+            if (dcCore::app()->blog->settings->system->theme !== My::id()) {
                 return;
             }
 
