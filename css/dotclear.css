@@ -597,3 +597,7 @@ button.submit {
   color: #fff;
   filter: brightness(100%);
 }
+
+a.media-link:hover, a.media-link:focus, a.media-link:active {
+  filter: none !important;
+}
