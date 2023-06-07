@@ -10,41 +10,40 @@
  * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
+declare(strict_types=1);
 
-namespace Dotclear\Theme\Resume;
+namespace Dotclear\Theme\resume;
 
 use dcCore;
 use dcNsProcess;
 use dcPage;
 use Exception;
 use form;
-use http;
-use l10n;
+use Dotclear\Helper\Network\Http;
 
 class Config extends dcNsProcess
 {
     public static function init(): bool
     {
-        if (!defined('DC_CONTEXT_ADMIN')) {
+        // limit to backend permissions
+        static::$init = My::checkContext(My::CONFIG);
+
+        if (!static::$init) {
             return false;
         }
 
-        self::$init = true;
-
-        l10n::set(__DIR__ . '/../locales/' . dcCore::app()->lang . '/admin');
+        My::l10n('admin');
 
         if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
+            $theme_url = Http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
+            $theme_url = Http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
         dcCore::app()->admin->standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
 
         // Load contextual help
-        if (file_exists(__DIR__ . '/../locales/' . dcCore::app()->lang . '/resources.php')) {
-            require __DIR__ . '/../locales/' . dcCore::app()->lang . '/resources.php';
-        }
+        dcCore::app()->themes->loadModuleL10Nresources(My::id(), dcCore::app()->lang);
 
         $resume_default_image_url = $theme_url . '/img/profile.jpg';
 

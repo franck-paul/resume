@@ -10,32 +10,31 @@
  * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
+declare(strict_types=1);
 
-namespace Dotclear\Theme\Resume;
+namespace Dotclear\Theme\resume;
 
 use ArrayObject;
 use dcCore;
 use dcNsProcess;
-use l10n;
-use http;
-use html;
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\Http;
 
 class Frontend extends dcNsProcess
 {
     public static function init(): bool
     {
-        self::$init = defined('DC_RC_PATH');
-
-        return self::$init;
+        return (static::$init = My::checkContext(My::FRONTEND));
     }
 
     public static function process(): bool
     {
-        if (!self::$init) {
+        if (!static::$init) {
             return false;
         }
 
-        l10n::set(__DIR__ . '/../locales/' . dcCore::app()->lang . '/main');
+        # load locales
+        My::l10n('main');
 
         # Templates
         dcCore::app()->tpl->addValue('ResumeSimpleMenu', [self::class, 'resumeSimpleMenu']);
@@ -79,10 +78,10 @@ class Frontend extends dcNsProcess
         if (is_array($menu)) {
             // Current relative URL
             $url     = $_SERVER['REQUEST_URI'];
-            $abs_url = http::getHost() . $url;
+            $abs_url = Http::getHost() . $url;
 
             // Home recognition var
-            $home_url       = html::stripHostURL(dcCore::app()->blog->url);
+            $home_url       = Html::stripHostURL(dcCore::app()->blog->url);
             $home_directory = dirname($home_url);
             if ($home_directory != '/') {
                 $home_directory = $home_directory . '/';
@@ -92,7 +91,7 @@ class Frontend extends dcNsProcess
             foreach ($menu as $i => $m) {
                 # $href = lien de l'item de menu
                 $href = $m['url'];
-                $href = html::escapeHTML($href);
+                $href = Html::escapeHTML($href);
 
                 # Cope with request only URL (ie ?query_part)
                 $href_part = '';
@@ -111,13 +110,13 @@ class Frontend extends dcNsProcess
 
                 if ($m['descr']) {
                     if (($description == 'title' || $description == 'both') && $targetBlank) {
-                        $title = html::escapeHTML(__($m['descr'])) . ' (' .
+                        $title = Html::escapeHTML(__($m['descr'])) . ' (' .
                         __('new window') . ')';
                     } elseif ($description == 'title' || $description == 'both') {
-                        $title = html::escapeHTML(__($m['descr']));
+                        $title = Html::escapeHTML(__($m['descr']));
                     }
                     if ($description == 'span' || $description == 'both') {
-                        $span = ' <span class="simple-menu-descr">' . html::escapeHTML(__($m['descr'])) . '</span>';
+                        $span = ' <span class="simple-menu-descr">' . Html::escapeHTML(__($m['descr'])) . '</span>';
                     }
                 }
 
@@ -128,7 +127,7 @@ class Frontend extends dcNsProcess
                     $title = (empty($title) ? __('Active page') : $title . ' (' . __('active page') . ')');
                 }
 
-                $label = html::escapeHTML(__($m['label']));
+                $label = Html::escapeHTML(__($m['label']));
 
                 $item = new ArrayObject([
                     'url'    => $href,   // URL
@@ -184,9 +183,9 @@ class Frontend extends dcNsProcess
         $resume_user_main_color = $style['main_color'];
 
         if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
+            $theme_url = Http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
         } else {
-            $theme_url = http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
+            $theme_url = Http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
         }
 
         $resume_user_colors_css_url = $theme_url . '/css/resume.user.colors.php';
