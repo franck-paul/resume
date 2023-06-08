@@ -172,7 +172,7 @@ class Config extends dcNsProcess
     public static function render(): void
     {
         if (!static::$init) {
-            return false;
+            return;
         }
 
         if (!dcCore::app()->admin->standalone_config) {

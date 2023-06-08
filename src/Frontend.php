@@ -180,12 +180,12 @@ class Frontend extends dcNsProcess
             $style['main_color'] = '#bd5d38';
         }
 
-        $resume_user_main_color = $style['main_color'];
+        $main_color = $style['main_color'];
 
-        if ($resume_user_main_color != '#bd5d38') {
+        if ($main_color != '#bd5d38') {
             return
             '<style type="text/css">' . "\n" .
-            ':root {--bs-primary: ' . $resume_user_main_color . '}' . "\n" .
+            ':root {--bs-primary: ' . $main_color . '}' . "\n" .
             '</style>' . "\n";
         }
     }
