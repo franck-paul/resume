@@ -10,10 +10,6 @@
  * @copyright Philippe Hénaff philippe@dissitou.org
  * @copyright GPL-2.0
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 $this->registerModule(
     'Resume',
     'A simple Bootstrap 5 blog theme',
