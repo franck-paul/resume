@@ -17,7 +17,6 @@ namespace Dotclear\Theme\resume;
 use dcCore;
 use dcNsProcess;
 use dcPage;
-use Dotclear\Helper\Network\Http;
 
 class Prepend extends dcNsProcess
 {
