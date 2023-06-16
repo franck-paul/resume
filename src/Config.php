@@ -19,7 +19,6 @@ use dcNsProcess;
 use dcPage;
 use Exception;
 use form;
-use Dotclear\Helper\Network\Http;
 
 class Config extends dcNsProcess
 {
@@ -34,14 +33,12 @@ class Config extends dcNsProcess
 
         My::l10n('admin');
 
-        $theme_url = My::fileURL('');
-
         dcCore::app()->admin->standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
 
         // Load contextual help
         dcCore::app()->themes->loadModuleL10Nresources(My::id(), dcCore::app()->lang);
 
-        $resume_default_image_url = $theme_url . '/img/profile.jpg';
+        $resume_default_image_url = My::fileURL('') . '/img/profile.jpg';
 
         $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
@@ -84,7 +81,7 @@ class Config extends dcNsProcess
 
         dcCore::app()->admin->stickers  = $stickers;
         dcCore::app()->admin->style     = $style;
-        dcCore::app()->admin->theme_url = $theme_url;
+        dcCore::app()->admin->theme_url = My::fileURL('');
 
         dcCore::app()->admin->conf_tab = $_POST['conf_tab'] ?? 'presentation';
 
