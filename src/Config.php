@@ -34,11 +34,7 @@ class Config extends dcNsProcess
 
         My::l10n('admin');
 
-        if (preg_match('#^http(s)?://#', dcCore::app()->blog->settings->system->themes_url)) {
-            $theme_url = Http::concatURL(dcCore::app()->blog->settings->system->themes_url, '/' . dcCore::app()->blog->settings->system->theme);
-        } else {
-            $theme_url = Http::concatURL(dcCore::app()->blog->url, dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme);
-        }
+        $theme_url = My::fileURL('');
 
         dcCore::app()->admin->standalone_config = (bool) dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'standalone_config');
 
