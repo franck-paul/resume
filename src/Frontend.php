@@ -197,7 +197,7 @@ class Frontend extends dcNsProcess
 
     public static function resumeUserImageSrcHelper()
     {
-        $resume_default_image_url = dcCore::app()->blog->settings->system->themes_url . '/' . dcCore::app()->blog->settings->system->theme . '/img/profile.jpg';
+        $resume_default_image_url = My::fileURL('/img/profile.jpg');
 
         $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
