@@ -16,20 +16,20 @@ namespace Dotclear\Theme\resume;
 
 use ArrayObject;
 use dcCore;
-use Dotclear\Core\Process;
+use dcNsProcess;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 
-class Frontend extends Process
+class Frontend extends dcNsProcess
 {
     public static function init(): bool
     {
-        return self::status(My::checkContext(My::FRONTEND));
+        return (static::$init = My::checkContext(My::FRONTEND));
     }
 
     public static function process(): bool
     {
-        if (!self::status()) {
+        if (!static::$init) {
             return false;
         }
 

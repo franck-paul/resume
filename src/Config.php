@@ -15,17 +15,19 @@ declare(strict_types=1);
 namespace Dotclear\Theme\resume;
 
 use dcCore;
-use Dotclear\Core\Process;
-use Dotclear\Core\Backend\Page;
+use dcNsProcess;
+use dcPage;
 use Exception;
 use form;
 
-class Config extends Process
+class Config extends dcNsProcess
 {
     public static function init(): bool
     {
         // limit to backend permissions
-        if (!self::status(My::checkContext(My::CONFIG))) {
+        static::$init = My::checkContext(My::CONFIG);
+
+        if (!static::$init) {
             return false;
         }
 
@@ -91,7 +93,7 @@ class Config extends Process
      */
     public static function process(): bool
     {
-        if (!self::status()) {
+        if (!static::$init) {
             return false;
         }
 
@@ -179,7 +181,7 @@ class Config extends Process
                 // Template cache reset
                 dcCore::app()->emptyTemplatesCache();
 
-                Page::success(__('Theme configuration upgraded.'), true, true);
+                dcPage::success(__('Theme configuration upgraded.'), true, true);
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
@@ -193,7 +195,7 @@ class Config extends Process
      */
     public static function render(): void
     {
-        if (!self::status()) {
+        if (!static::$init) {
             return;
         }
 
@@ -289,7 +291,7 @@ class Config extends Process
         echo '</form>';
 
         echo '</div>'; // Close tab
-        Page::helpBlock('resume');
+        dcPage::helpBlock('resume');
 
         // Legacy mode
         if (!dcCore::app()->admin->standalone_config) {
