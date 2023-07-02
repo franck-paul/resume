@@ -18,11 +18,11 @@ use dcCore;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Page;
 
-class Backend extends Process
+class Prepend extends Process
 {
     public static function init(): bool
     {
-        return self::status(My::checkContext(My::BACKEND));
+        return self::status(My::checkContext(My::PREPEND));
     }
 
     public static function process(): bool
