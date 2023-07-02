@@ -15,19 +15,19 @@ declare(strict_types=1);
 namespace Dotclear\Theme\resume;
 
 use dcCore;
-use dcNsProcess;
-use dcPage;
+use Dotclear\Core\Process;
+use Dotclear\Core\Backend\Page;
 
-class Prepend extends dcNsProcess
+class Prepend extends Process
 {
     public static function init(): bool
     {
-        return (static::$init = My::checkContext(My::PREPEND));
+        return self::status(My::checkContext(My::PREPEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -45,8 +45,8 @@ class Prepend extends dcNsProcess
             dcCore::app()->auth->user_prefs->addWorkspace('accessibility');
             if (!dcCore::app()->auth->user_prefs->accessibility->nodragdrop) {
                 echo
-                dcPage::jsLoad('js/jquery/jquery-ui.custom.js') .
-                dcPage::jsLoad('js/jquery/jquery.ui.touch-punch.js');
+                Page::jsLoad('js/jquery/jquery-ui.custom.js') .
+                Page::jsLoad('js/jquery/jquery.ui.touch-punch.js');
             }
         });
 
