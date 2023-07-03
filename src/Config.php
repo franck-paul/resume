@@ -36,7 +36,7 @@ class Config extends Process
         // Load contextual help
         dcCore::app()->themes->loadModuleL10Nresources(My::id(), dcCore::app()->lang);
 
-        $resume_default_image_url = My::fileURL('') . '/img/profile.jpg';
+        dcCore::app()->admin->resume_default_image_url = My::fileURL('') . '/img/profile.jpg';
 
         $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
@@ -45,7 +45,7 @@ class Config extends Process
             $style = [];
         }
         if (!isset($style['resume_user_image']) || empty($style['resume_user_image'])) {
-            $style['resume_user_image'] = $resume_default_image_url;
+            $style['resume_user_image'] = dcCore::app()->admin->resume_default_image_url;
         }
 
         if (!isset($style['main_color'])) {
@@ -83,7 +83,7 @@ class Config extends Process
 
         dcCore::app()->admin->conf_tab = $_POST['conf_tab'] ?? 'presentation';
 
-        return self::$init;
+        return self::status();
     }
 
     /**
@@ -103,7 +103,7 @@ class Config extends Process
                     if (!empty($_POST['resume_user_image'])) {
                         $style['resume_user_image'] = $_POST['resume_user_image'];
                     } else {
-                        $style['resume_user_image'] = $resume_default_image_url;
+                        $style['resume_user_image'] = dcCore::app()->admin->resume_default_image_url;
                     }
                     $style['main_color'] = $_POST['main_color'];
 
