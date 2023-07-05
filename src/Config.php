@@ -36,7 +36,7 @@ class Config extends Process
         // Load contextual help
         dcCore::app()->themes->loadModuleL10Nresources(My::id(), dcCore::app()->lang);
 
-        dcCore::app()->admin->resume_default_image_url = My::fileURL('') . '/img/profile.jpg';
+        dcCore::app()->admin->resume_default_image_url = My::fileURL('/img/profile.jpg');
 
         $style = dcCore::app()->blog->settings->themes->get(dcCore::app()->blog->settings->system->theme . '_style');
         $style = $style ? (unserialize($style) ?: []) : [];
