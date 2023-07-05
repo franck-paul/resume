@@ -62,15 +62,6 @@ class Prepend extends Process
                     $csp['script-src'] = 'use.fontawesome.com';
                 }
             });
-
-            dcCore::app()->addBehavior('adminPopupMediaManager', function ($id) {
-                if (dcCore::app()->blog->settings->system->theme !== My::id()) {
-                    return;
-                }
-
-                return
-                My::jsLoad('popup_media.js');
-            });
         }
 
         return true;
